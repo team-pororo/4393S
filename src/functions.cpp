@@ -17,6 +17,19 @@ void Intake::handle() {
 	}
 }
 
+void Intake::spin(int direction) {
+	switch(direction) {
+		case -1:
+		motor.move(-127);
+		break;
+		case 1:
+		motor.move(127);
+		break;
+		default:
+		motor.move(0);
+	}
+}
+
 void Puncher::handle() {
 	if (controller.get_digital(FORWARD_PUNCHER)) {
 		motor.move(127);
@@ -25,6 +38,10 @@ void Puncher::handle() {
 	} else {
 		motor.move(0);
 	}
+}
+
+void Puncher::punchOnce() {
+	motor.move_relative(ONE_PUNCH, 127);
 }
 
 Arm::Arm(Controller c): controller(c) {
@@ -73,4 +90,8 @@ void Arm::handle() {
 	return;
 updatepos:
 	motor.move_absolute(position, 127);
+}
+
+void Arm::moveTo(double pos) {
+	motor.move_absolute(pos, 127);
 }

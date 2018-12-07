@@ -2,6 +2,7 @@
 #include "ports.h"
 #include "drivetrain.h"
 #include "functions.h"
+#include "okapi/api.hpp"
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -17,11 +18,14 @@
  * task, not resume it from where it left off.
  */
 
- Controller controller = Controller(CONTROLLER_MASTER);
- Drivetrain drivetrain(controller);
- Intake intake(controller);
- Puncher puncher(controller);
- Arm arm(controller);
+using namespace pros;
+
+ extern Intake intake;
+ extern Puncher puncher;
+ extern Arm arm;
+ extern Drivetrain drivetrain;
+ extern okapi::ChassisControllerIntegrated ok;
+ extern Controller controller;
 
 void opcontrol() {
 

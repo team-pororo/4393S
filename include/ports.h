@@ -1,3 +1,5 @@
+#include "okapi/api.hpp"
+
 // CONTROLS DEFINITIONS
 #define ARM_UP DIGITAL_LEFT
 #define ARM_DOWN DIGITAL_DOWN
@@ -41,6 +43,8 @@
 #define ARM_P3 90
 #define ARM_P4 120
 
+#define ONE_PUNCH 120
+
 // ROBOT MEASUREMENTS
-#define WHEEL_DIAM 4_in
-#define WHEEL_TRACK 11_in // chassis width
+#define WHEEL_DIAM 4
+#define WHEEL_TRACK 11 // chassis width

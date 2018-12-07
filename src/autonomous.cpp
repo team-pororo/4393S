@@ -4,12 +4,14 @@
 #include "functions.h"
 #include "okapi/api.hpp"
 
-using namespace pros;
 using namespace okapi;
 
-auto ok = ChassisControllerFactory::create(L_MOTOR, R_MOTOR,
-  AbstractMotor::gearset::green,
-  {WHEEL_DIAM, WHEEL_TRACK});
+extern Intake intake;
+extern Puncher puncher;
+extern Arm arm;
+extern ChassisControllerIntegrated ok;
+extern Drivetrain drivetrain;
+extern pros::Controller controller;
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -22,6 +24,7 @@ auto ok = ChassisControllerFactory::create(L_MOTOR, R_MOTOR,
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
+
 void autonomous() {
   ok.moveDistance(12_in);
   ok.turnAngle(90_deg);

@@ -2,6 +2,7 @@
 #include "ports.h"
 #include "drivetrain.h"
 #include "functions.h"
+#include "okapi/api.hpp"
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -9,6 +10,18 @@
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+using namespace okapi;
+
+pros::Controller controller = pros::Controller(CONTROLLER_MASTER);
+Drivetrain drivetrain(controller);
+Intake intake(controller);
+Puncher puncher(controller);
+Arm arm(controller);
+
+ auto ok = ChassisControllerFactory::create(L_MOTOR, R_MOTOR,
+   AbstractMotor::gearset::green,
+   {4_in, 11_in});
+
 
 void initialize() {
 	pros::lcd::initialize();

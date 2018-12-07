@@ -10,6 +10,7 @@ public:
 	Controller controller;
 	Intake(Controller c): controller(c) {};
 	void handle();
+	void spin(int direction); // -1 back, 0 stop, 1 forward
 };
 
 class Puncher {
@@ -18,6 +19,7 @@ public:
 	Controller controller;
 	Puncher(Controller c): controller(c) {};
 	void handle();
+	void punchOnce(); // punch once
 };
 
 class Arm {
@@ -30,4 +32,5 @@ public:
 	Arm(Controller c);
 	void handle();
 	void drop();
+	void moveTo(double pos);
 };
