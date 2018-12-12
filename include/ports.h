@@ -23,28 +23,28 @@
 #define R_MOTOR_REVERSED true
 
 #define INTAKE 3
-#define INTAKE_REVERSED false
+#define INTAKE_REVERSED true
 
-#define ARM 4
+#define ARM 5
 
-#define PUNCHER 5
-#define PUNCHER_REVERSED false
+#define PUNCHER 4
+#define PUNCHER_REVERSED true
 
 #define POT 'A'
 
-// ARM CONSTANTS
+// ARM CONSTANTS - ROUGHLY ESTIMATED 12/12/18 - REFINE LATER
 
-#define ARM_DROPPED 0000 // Potentiometer reading when arm position is zero
+#define ARM_DROPPED 3350 // Potentiometer reading when arm position is zero
 #define ARM_CORRECTION_SPEED 16
-#define ARM_MANUAL_SPEED 1
+#define ARM_MANUAL_SPEED 127
 
-#define ARM_P1 30
-#define ARM_P2 60
-#define ARM_P3 90
-#define ARM_P4 120
+#define ARM_P1 0
+#define ARM_P2 160
+#define ARM_P3 330
+#define ARM_P4 540
 
 #define ONE_PUNCH 120
 
 // ROBOT MEASUREMENTS
 #define WHEEL_DIAM 4
-#define WHEEL_TRACK 11 // chassis width
+#define WHEEL_TRACK 13.75 // chassis width

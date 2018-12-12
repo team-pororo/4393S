@@ -23,7 +23,7 @@ public:
 };
 
 class Arm {
-private:
+public:
 	Motor motor = Motor(ARM, E_MOTOR_GEARSET_18, false);
 	ADIPotentiometer armpot = ADIPotentiometer(POT);
 	Controller controller;

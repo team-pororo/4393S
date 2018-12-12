@@ -46,18 +46,20 @@ void Puncher::punchOnce() {
 
 Arm::Arm(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+	motor.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 };
 
 void Arm::drop() {
   // Uses the potentiometer to drop the arm to lowest position
 	// Then tares the arm motor - after this calibration, encoders
 	// only are used
+	controller.rumble("-");
 	int pot = 0;
 	do {
 		pot = armpot.get_value();
-		if (pot > ARM_DROPPED) {
+		if (pot < ARM_DROPPED) {
 			motor.move(-ARM_CORRECTION_SPEED);
-		} else if (pot < ARM_DROPPED) {
+		} else if (pot > ARM_DROPPED) {
 			motor.move(ARM_CORRECTION_SPEED);
 		}
 		delay(1);

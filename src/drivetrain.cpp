@@ -12,7 +12,7 @@ void Drivetrain::drive(int l, int r) {
 		r = -l;
 	}
 	l_motor.move(l);
-	r_motor.move(r);
+	r_motor.move(-r);
 }
 
 void Drivetrain::tankdrive() {
@@ -47,10 +47,12 @@ void Drivetrain::handle() {
 		if (driveMode == TankDrive) {
 			driveMode = CheesyDrive;
 			controller.set_text(1, 0, "Mode: ChsyDrve");
+			delay(50);
 			controller.rumble("- . - ."); // morse code C
 		} else if (driveMode == CheesyDrive) {
 			driveMode = TankDrive;
 			controller.set_text(1, 0, "Mode: TankDrve");
+			delay(50);
 			controller.rumble("- . . ."); // morse code B for 'basic drive'
 		}
 	}

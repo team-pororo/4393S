@@ -24,8 +24,7 @@ Arm arm(controller);
 
 
 void initialize() {
-	pros::lcd::initialize();
-	pros::lcd::set_text(1, "Welcome to Pororo");
+	lcd::initialize();
 }
 
 /**
