@@ -70,28 +70,34 @@ void Arm::drop() {
 void Arm::handle() {
 	if (controller.get_digital(ARM_UP)) {
 		motor.move(ARM_MANUAL_SPEED);
+		manualMode = true;
 	} else if (controller.get_digital(ARM_DOWN)) {
 		motor.move(-ARM_MANUAL_SPEED);
-	}
-	if (controller.get_digital(ARM_C1)) {
+		manualMode = true;
+	} else	if (controller.get_digital(ARM_C1)) {
 		position = ARM_P1;
 		goto updatepos;
-	}
-	if (controller.get_digital(ARM_C2)) {
+	} else if (controller.get_digital(ARM_C2)) {
 		position = ARM_P2;
 		goto updatepos;
-	}
-	if (controller.get_digital(ARM_C3)) {
+	} else if (controller.get_digital(ARM_C3)) {
 		position = ARM_P3;
 		goto updatepos;
-	}
-	if (controller.get_digital(ARM_C4)) {
+	} else if (controller.get_digital(ARM_C4)) {
 		position = ARM_P4;
 		goto updatepos;
+	} else {
+		if (manualMode) {
+			motor.move(0);
+			manualMode = false;
+			position = motor.get_position(); // hold in place
+			motor.move_absolute(position, 127);
+		}
 	}
 	return;
 updatepos:
 	motor.move_absolute(position, 127);
+	manualMode = false;
 }
 
 void Arm::moveTo(double pos) {

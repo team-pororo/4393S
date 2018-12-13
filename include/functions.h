@@ -29,6 +29,7 @@ public:
 	Controller controller;
 public:
 	double position; // Arm target position in degrees
+	bool manualMode = false;
 	Arm(Controller c);
 	void handle();
 	void drop();

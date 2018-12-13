@@ -17,17 +17,22 @@
 #define REVERSE_PUNCHER DIGITAL_R2
 
 // PORT DEFINITIONS
-#define L_MOTOR 1
-#define L_MOTOR_REVERSED false
-#define R_MOTOR 2
-#define R_MOTOR_REVERSED true
+#define L_F_MOTOR 1
+#define L_F_MOTOR_REVERSED false
+#define R_F_MOTOR 2
+#define R_F_MOTOR_REVERSED true
 
-#define INTAKE 3
+#define L_R_MOTOR 3
+#define L_R_MOTOR_REVERSED false
+#define R_R_MOTOR 4
+#define R_R_MOTOR_REVERSED true
+
+#define INTAKE 5
 #define INTAKE_REVERSED true
 
-#define ARM 5
+#define ARM 6
 
-#define PUNCHER 4
+#define PUNCHER 7
 #define PUNCHER_REVERSED true
 
 #define POT 'A'

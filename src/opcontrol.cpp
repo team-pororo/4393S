@@ -43,9 +43,10 @@ void updateDisplay() {
   } else {
     lcd::print(4, "Front: INTAKE");
   }
-  lcd::print(5, "Controller Battery: %03d%%    Robot Battery: %03d%%/%4.2f W",
-      controller.get_battery_capacity(), battery::get_capacity(),
-      battery::get_current());
+  lcd::print(5, "Controller Battery: %03d%%",
+      controller.get_battery_capacity());
+  lcd::print(6, "Robot Battery: %03d%%/%4.2f W", battery::get_capacity(),
+    battery::get_current());
 }
 
 void opcontrol() {
@@ -58,11 +59,14 @@ void opcontrol() {
 
 	arm.drop();
 
-	controller.set_text(0, 0, "Opcontrl 4393S");
+  controller.clear();
   delay(50);
-	controller.set_text(1, 0, "Mode: TankDrve");
+
+	controller.set_text(0, 0, "Opcontrol 4393S");
   delay(50);
-	controller.set_text(2, 0, "Front:  INTAKE");
+	controller.set_text(1, 0, "Mode: TankDrve ");
+  delay(50);
+	controller.set_text(2, 0, "Front:   INTAKE");
   delay(50);
 
 	while (true) {
@@ -70,6 +74,7 @@ void opcontrol() {
 		intake.handle();
 		puncher.handle();
 		arm.handle();
-		delay(10);
+    updateDisplay();
+		delay(20);
 	}
 }

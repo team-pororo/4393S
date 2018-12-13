@@ -10,9 +10,11 @@ enum DriveMode {
 
 
 class Drivetrain {
-private:
-	Motor l_motor = Motor(L_MOTOR, E_MOTOR_GEARSET_18, L_MOTOR_REVERSED);
-	Motor r_motor = Motor(R_MOTOR, E_MOTOR_GEARSET_18, R_MOTOR_REVERSED);
+public:
+	Motor l_f_motor = Motor(L_F_MOTOR, E_MOTOR_GEARSET_18);//, L_F_MOTOR_REVERSED);
+	Motor r_f_motor = Motor(R_F_MOTOR, E_MOTOR_GEARSET_18);//, R_F_MOTOR_REVERSED);
+	Motor l_r_motor = Motor(L_R_MOTOR, E_MOTOR_GEARSET_18);//, L_R_MOTOR_REVERSED);
+	Motor r_r_motor = Motor(R_R_MOTOR, E_MOTOR_GEARSET_18);//, R_R_MOTOR_REVERSED);
 	void drive(int l, int r);
 	Controller controller;
 public:
