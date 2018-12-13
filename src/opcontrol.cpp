@@ -3,6 +3,7 @@
 #include "drivetrain.h"
 #include "functions.h"
 #include "okapi/api.hpp"
+#include <string>
 
 /**
  * Runs the operator control code. This function will be started in its own task
@@ -28,7 +29,7 @@ using namespace pros;
  extern Controller controller;
 
 void updateDisplay() {
-  lcd::print(0, "Team Pororo - Xx_Dale_xX - Robot Status Info:");
+  lcd::print(0, "Team Pororo - Xx_Dale_xX - Robot Status:");
   lcd::print(1, "Arm Potentiometer Position: %04d", arm.armpot.get_value());
   lcd::print(2, "Arm Encoder Position: %4.2f", arm.motor.get_position());
   switch (drivetrain.driveMode) {
@@ -49,6 +50,21 @@ void updateDisplay() {
     battery::get_current());
 }
 
+int last_rumble = 0;
+void watch_clock() {
+  if (millis() > CLOCK_RUMBLE && last_rumble < CLOCK_RUMBLE) {
+    controller.rumble("- - -"); // time warning to driver
+    last_rumble = millis();
+  }
+}
+
+void update_controller_time() {
+  int seconds = millis() / 1000;
+  int minutes = seconds / 60;
+  seconds %= 60;
+  controller.print(0, 0, "4393S Time %01d.%02d", minutes, seconds);
+}
+
 void opcontrol() {
 
   controller.clear();
@@ -62,9 +78,9 @@ void opcontrol() {
   controller.clear();
   delay(50);
 
-	controller.set_text(0, 0, "Opcontrol 4393S");
+	update_controller_time();
   delay(50);
-	controller.set_text(1, 0, "Mode: TankDrve ");
+	controller.set_text(1, 0, "Mode: TankDrive");
   delay(50);
 	controller.set_text(2, 0, "Front:   INTAKE");
   delay(50);
@@ -75,6 +91,8 @@ void opcontrol() {
 		puncher.handle();
 		arm.handle();
     updateDisplay();
+    watch_clock();
+    update_controller_time();
 		delay(20);
 	}
 }

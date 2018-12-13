@@ -62,14 +62,14 @@ void Drivetrain::handle() {
 	if (controller.get_digital_new_press(TOGGLE_DRIVE)) {
 		if (driveMode == TankDrive) {
 			driveMode = CheesyDrive;
-			controller.set_text(1, 0, "Mode: ChsyDrve ");
+			controller.set_text(1, 0, "Mode: ChsyDrive");
 			delay(50);
-			controller.rumble("-.-."); // morse code C
+			controller.rumble("-");
 		} else if (driveMode == CheesyDrive) {
 			driveMode = TankDrive;
-			controller.set_text(1, 0, "Mode: TankDrve ");
+			controller.set_text(1, 0, "Mode: TankDrive");
 			delay(50);
-			controller.rumble("-..."); // morse code B for 'basic drive'
+			controller.rumble("-");
 		}
 	}
 	switch (driveMode) {
