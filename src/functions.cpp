@@ -63,7 +63,7 @@ void Arm::drop() {
 			motor.move(ARM_CORRECTION_SPEED);
 		}
 		delay(1);
-	} while (abs(pot - ARM_DROPPED) > 50 && millis() < 2000);
+	} while (abs(pot - ARM_DROPPED) > 50 && millis() < ARM_CORRECTION_TIMEOUT);
 	motor.move(0); // stop
 	motor.tare_position();
 	motor.move_absolute(0, 127); // brake

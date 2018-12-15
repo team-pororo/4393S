@@ -45,6 +45,8 @@
 #define ARM_MANUAL_SPEED_UP 96
 #define ARM_MANUAL_SPEED_DOWN 127
 
+#define ARM_CORRECTION_TIMEOUT 1000 // Time out after failure to correct arm
+
 #define ARM_P1 0
 #define ARM_P2 160
 #define ARM_P3 330
