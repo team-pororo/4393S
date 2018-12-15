@@ -29,6 +29,7 @@
 
 #define INTAKE 5
 #define INTAKE_REVERSED true
+#define INTAKE_SPEED 64 // throttle the speed to prevent ball overshoot
 
 #define ARM 6
 
@@ -40,8 +41,9 @@
 // ARM CONSTANTS - ROUGHLY ESTIMATED 12/12/18 - REFINE LATER
 
 #define ARM_DROPPED 3350 // Potentiometer reading when arm position is zero
-#define ARM_CORRECTION_SPEED 16
-#define ARM_MANUAL_SPEED 127
+#define ARM_CORRECTION_SPEED 24
+#define ARM_MANUAL_SPEED_UP 96
+#define ARM_MANUAL_SPEED_DOWN 127
 
 #define ARM_P1 0
 #define ARM_P2 160

@@ -48,12 +48,15 @@ void updateDisplay() {
       controller.get_battery_capacity());
   lcd::print(6, "Robot Battery: %03d%%/%4.2f W", battery::get_capacity(),
     battery::get_current());
+  lcd::print(7, "Dover-Foxcroft Meet");
 }
 
 int last_rumble = 0;
 void watch_clock() {
   if (millis() > CLOCK_RUMBLE && last_rumble < CLOCK_RUMBLE) {
+    delay(50);
     controller.rumble("- - -"); // time warning to driver
+    delay(50);
     last_rumble = millis();
   }
 }
@@ -85,6 +88,8 @@ void opcontrol() {
 	controller.set_text(2, 0, "Front:   INTAKE");
   delay(50);
 
+  int frame = 0;
+
 	while (true) {
 		drivetrain.handle();
 		intake.handle();
@@ -92,7 +97,10 @@ void opcontrol() {
 		arm.handle();
     updateDisplay();
     watch_clock();
-    update_controller_time();
+    if (frame % 100 == 0) {
+      update_controller_time();
+    }
+    ++frame;
 		delay(20);
 	}
 }

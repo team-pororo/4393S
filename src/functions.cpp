@@ -20,10 +20,10 @@ void Intake::handle() {
 void Intake::spin(int direction) {
 	switch(direction) {
 		case -1:
-		motor.move(-127);
+		motor.move(-INTAKE_SPEED);
 		break;
 		case 1:
-		motor.move(127);
+		motor.move(INTAKE_SPEED);
 		break;
 		default:
 		motor.move(0);
@@ -53,26 +53,28 @@ void Arm::drop() {
   // Uses the potentiometer to drop the arm to lowest position
 	// Then tares the arm motor - after this calibration, encoders
 	// only are used
-	controller.rumble("-");
+	int start = millis(); // Timeout after 2 secs
 	int pot = 0;
 	do {
 		pot = armpot.get_value();
 		if (pot < ARM_DROPPED) {
-			motor.move(-ARM_CORRECTION_SPEED);
+			motor.move(-ARM_CORRECTION_SPEED*2);
 		} else if (pot > ARM_DROPPED) {
 			motor.move(ARM_CORRECTION_SPEED);
 		}
 		delay(1);
-	} while (abs(pot - ARM_DROPPED) < 50);
+	} while (abs(pot - ARM_DROPPED) > 50 && millis() < 2000);
+	motor.move(0); // stop
 	motor.tare_position();
+	motor.move_absolute(0, 127); // brake
 }
 
 void Arm::handle() {
 	if (controller.get_digital(ARM_UP)) {
-		motor.move(ARM_MANUAL_SPEED);
+		motor.move(ARM_MANUAL_SPEED_UP);
 		manualMode = true;
 	} else if (controller.get_digital(ARM_DOWN)) {
-		motor.move(-ARM_MANUAL_SPEED);
+		motor.move(-ARM_MANUAL_SPEED_DOWN);
 		manualMode = true;
 	} else	if (controller.get_digital(ARM_C1)) {
 		position = ARM_P1;
