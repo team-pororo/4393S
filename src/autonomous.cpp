@@ -26,7 +26,10 @@ extern pros::Controller controller;
  */
 
 void autonomous() {
-  //ok.moveDistance(12_in);
-  //ok.turnAngle(90_deg);
-  delay(10);
+  drivetrain.drive(127, 127);
+  delay(4000);
+  drivetrain.drive(0, 0);
+  while (true) {
+    delay(10);
+  }
 }

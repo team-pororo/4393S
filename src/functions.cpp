@@ -9,9 +9,9 @@ void Intake::handle() {
 		intakeSpinning = !intakeSpinning;
 	}
 	if (controller.get_digital(REVERSE_INTAKE)) {
-		motor.move(-127);
+		motor.move(-INTAKE_SPEED);
 	} else if (intakeSpinning) {
-		motor.move(127);
+		motor.move(INTAKE_SPEED);
 	} else {
 		motor.move(0);
 	}
@@ -31,12 +31,14 @@ void Intake::spin(int direction) {
 }
 
 void Puncher::handle() {
+	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	if (controller.get_digital(FORWARD_PUNCHER)) {
 		motor.move(127);
 	} else if (controller.get_digital(REVERSE_PUNCHER)) {
 		motor.move(-127);
 	} else {
-		motor.move(0);
+		//motor.move(0);
+		motor.move_absolute(motor.get_position(), 127); // hold in place
 	}
 }
 

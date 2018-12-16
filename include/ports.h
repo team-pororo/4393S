@@ -29,7 +29,7 @@
 
 #define INTAKE 5
 #define INTAKE_REVERSED true
-#define INTAKE_SPEED 64 // throttle the speed to prevent ball overshoot
+#define INTAKE_SPEED 96 // throttle the speed to prevent ball overshoot
 
 #define ARM 6
 
