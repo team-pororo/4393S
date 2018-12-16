@@ -1,6 +1,6 @@
 #include "main.h"
 #include "ports.h"
-#include "drivetrain.h"
+#include "betterdrive.h"
 #include "functions.h"
 #include "okapi/api.hpp"
 #include <string>
@@ -68,15 +68,21 @@ void update_controller_time() {
   controller.print(0, 0, "4393S Time %01d.%02d", minutes, seconds);
 }
 
+void autonomousKludge() {
+  if (controller.get_digital_new_press(DIGITAL_B)) {
+    autonomous();
+  }
+}
+
 void opcontrol() {
 
-  controller.clear();
+  /*controller.clear();
 	controller.set_text(0, 0, "TeamPororo4393S");
   delay(50);
   controller.set_text(1, 0, "Calibrating Arm");
   delay(50);
 
-	arm.drop();
+	arm.drop();*/
 
   controller.clear();
   delay(50);
@@ -94,9 +100,12 @@ void opcontrol() {
 		drivetrain.handle();
 		intake.handle();
 		puncher.handle();
-		arm.handle();
+		//arm.handle();
     updateDisplay();
     watch_clock();
+
+    autonomousKludge();
+
     if (frame % 100 == 0) {
       update_controller_time();
     }

@@ -1,5 +1,7 @@
 #include "okapi/api.hpp"
 
+using namespace okapi::literals;
+
 // CONTROLS DEFINITIONS
 #define ARM_UP DIGITAL_LEFT
 #define ARM_DOWN DIGITAL_DOWN
@@ -56,7 +58,7 @@
 
 // ROBOT MEASUREMENTS
 #define WHEEL_DIAM 4
-#define WHEEL_TRACK 13.75 // chassis width
+#define WHEEL_TRACK 14 // chassis width
 
 // CLOCK RUMBLE TIMES
 #define CLOCK_RUMBLE 60000 // 60 seconds

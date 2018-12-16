@@ -1,6 +1,6 @@
 #include "main.h"
 #include "ports.h"
-#include "drivetrain.h"
+#include "betterdrive.h"
 #include "functions.h"
 #include "okapi/api.hpp"
 
@@ -26,10 +26,7 @@ extern pros::Controller controller;
  */
 
 void autonomous() {
-  drivetrain.drive(127, 127);
-  delay(4000);
-  drivetrain.drive(0, 0);
-  while (true) {
-    delay(10);
-  }
+  drivetrain.move(18);
+  drivetrain.turn(180);
+  drivetrain.move(18);
 }
