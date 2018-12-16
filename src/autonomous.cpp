@@ -2,14 +2,10 @@
 #include "ports.h"
 #include "drivetrain.h"
 #include "functions.h"
-#include "okapi/api.hpp"
-
-using namespace okapi;
 
 extern Intake intake;
 extern Puncher puncher;
 extern Arm arm;
-extern ChassisControllerIntegrated ok;
 extern Drivetrain drivetrain;
 extern pros::Controller controller;
 
@@ -29,7 +25,4 @@ void autonomous() {
   drivetrain.drive(127, 127);
   delay(4000);
   drivetrain.drive(0, 0);
-  while (true) {
-    delay(10);
-  }
 }

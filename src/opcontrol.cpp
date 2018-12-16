@@ -2,7 +2,6 @@
 #include "ports.h"
 #include "drivetrain.h"
 #include "functions.h"
-#include "okapi/api.hpp"
 #include <string>
 
 /**
@@ -25,7 +24,6 @@ using namespace pros;
  extern Puncher puncher;
  extern Arm arm;
  extern Drivetrain drivetrain;
- extern okapi::ChassisControllerIntegrated ok;
  extern Controller controller;
 
 void updateDisplay() {
@@ -68,6 +66,12 @@ void update_controller_time() {
   controller.print(0, 0, "4393S Time %01d.%02d", minutes, seconds);
 }
 
+void autoKludge() {
+  if (controller.get_digital_new_press(DIGITAL_B)) {
+    autonomous();
+  }
+}
+
 void opcontrol() {
 
   controller.clear();
@@ -94,7 +98,8 @@ void opcontrol() {
 		drivetrain.handle();
 		intake.handle();
 		puncher.handle();
-		arm.handle();
+		//arm.handle();
+    autoKludge();
     updateDisplay();
     watch_clock();
     if (frame % 100 == 0) {
