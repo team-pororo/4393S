@@ -1,62 +1,93 @@
+#ifndef PORTS_H
+#define PORTS_H
+// CONTROLS DEFINITIONS ====================
 
+// DRIVE CONTROLS
+// Joystick controls aren't included in this file, check the source
+#define C_TOGGLE_FRONT DIGITAL_X
 
-// CONTROLS DEFINITIONS
-#define ARM_UP DIGITAL_LEFT
-#define ARM_DOWN DIGITAL_DOWN
-#define TOGGLE_FRONT DIGITAL_RIGHT
-#define TOGGLE_DRIVE DIGITAL_UP
+// ARM CONTROLS
+#define C_ARM_UP DIGITAL_LEFT
+#define C_ARM_DOWN DIGITAL_DOWN
+#define C_ARM_STOWED DIGITAL_RIGHT
+#define C_ARM_RAISED DIGITAL_UP
 
-#define ARM_C1 DIGITAL_B
-#define ARM_C2 DIGITAL_A
-#define ARM_C3 DIGITAL_Y
-#define ARM_C4 DIGITAL_X
+// PUNCHER CONTROLS
+#define C_PUNCHER_UP DIGITAL_A
+#define C_PUNCHER_DOWN DIGITAL_B
+#define C_PUNCHER_FIRE DIGITAL_L1
+#define C_PUNCHER_REVERSE DIGITAL_L2
 
-#define TOGGLE_INTAKE DIGITAL_L1
-#define REVERSE_INTAKE DIGITAL_L2
-#define FORWARD_PUNCHER DIGITAL_R1
-#define REVERSE_PUNCHER DIGITAL_R2
+// NOTE: The intake and flipper will run off of the same motor.
+// INTAKE CONTROLS
+#define C_INTAKE_TOGGLE_MODE true
+#define C_INTAKE_FORWARD DIGITAL_R1
+#define C_INTAKE_REVERSE DIGITAL_R2
 
-// PORT DEFINITIONS
-#define L_F_MOTOR 1
-#define L_F_MOTOR_REVERSED false
-#define R_F_MOTOR 2
-#define R_F_MOTOR_REVERSED true
+// REAR FLIPPER CONTROLS
+#define C_FLIPPER_PRIME DIGITAL_Y // Rotates flipper to 45deg angle
+//#define C_FLIPPER_RUN DIGITAL_X // Moves flipper for a second or so to flip cap
+// You can just do this with the intake controls.
 
-#define L_R_MOTOR 3
-#define L_R_MOTOR_REVERSED false
-#define R_R_MOTOR 4
-#define R_R_MOTOR_REVERSED true
+// PORT DEFINITIONS =================
 
-#define INTAKE 5
-#define INTAKE_REVERSED true
-#define INTAKE_SPEED 96 // throttle the speed to prevent ball overshoot
+// DRIVETRAIN
+#define M_DRIVE_LF 1
+#define M_DRIVE_RF 2
+#define M_DRIVE_LR 9
+#define M_DRIVE_RR 10
 
-#define ARM 6
+// ARM
+#define M_ARM 3
+#define SW_ARM 'A' // limit switch at stowed position to determine absolute pos
 
-#define PUNCHER 7
-#define PUNCHER_REVERSED true
+// PUNCHER
+#define M_PUNCHER 4
+#define M_PUNCHER_ANGLE 5
+#define SW_PUNCHER_ANGLE 'C' // limit switch at most vertical angle
 
-#define POT 'A'
+// INTAKE/FLIPPER
+#define M_INTAKE 6
+// no limit switch - the entire shaft is rotational only, so we'll just have to
+// make sure the flipper is in primed position before each match. Whatevs.
 
-// ARM CONSTANTS - ROUGHLY ESTIMATED 12/12/18 - REFINE LATER
+// PID CONSTANTS ==================
 
-#define ARM_DROPPED 3350 // Potentiometer reading when arm position is zero
-#define ARM_CORRECTION_SPEED 24
-#define ARM_MANUAL_SPEED_UP 96
-#define ARM_MANUAL_SPEED_DOWN 127
+// DRIVETRAIN
+#define P_WHEEL_DIAM 4
+#define P_WHEEL_TRACK 13.75
 
-#define ARM_CORRECTION_TIMEOUT 1000 // Time out after failure to correct arm
+// ARM
+#define P_ARM_STOWED 0 // duh
+#define P_ARM_RAISED 90 // PLACEHOLDER VALUE - CHANGE THIS
+#define V_ARM 100 // Velocity for arm movements - Ensures consistent speed
+// see https://pros.cs.purdue.edu/v5/api/c/motors.html#motor-move-velocity
+// for more info on motor target velocity
+#define S_ARM_DROP 64 // max speed during calibration
+#define T_ARM_TIMEOUT 2000 // calibration timeout - 2secs
 
-#define ARM_P1 0
-#define ARM_P2 160
-#define ARM_P3 330
-#define ARM_P4 540
+// PUNCHER
+// These appear inverted because as the puncher *lowers*, the angle *increases*.
+// Remember that the angle adjustment point is behind the ball.
+#define P_PUNCHER_HIGH 0
+#define P_PUNCHER_LOW 90 // PLACEHOLDER VALUE - CHANGE THIS
+#define P_PUNCHER_ONEPUNCH 360 // rotation needed to punch ball once
+#define S_PUNCHER_ANGLE 96 // throttle to improve control
+#define S_PUNCHER_ANGLE_DROP 32 // max speed during calibration
+#define T_PUNCHER_ANGLE_TIMEOUT 2000 // calibration timeout - 2secs
 
-#define ONE_PUNCH 120
+// INTAKE
+#define S_INTAKE 96 // throttle to prevent balls going haywire (thats what she said)
 
-// ROBOT MEASUREMENTS
-#define WHEEL_DIAM 4
-#define WHEEL_TRACK 13.75 // chassis width
+// FLIPPER
+// As the flipper continuously spins, there is no one position for it to prime to.
+// We just go to the closest position where (position % 90) = P_FLIPPER_OFFSET
+// is true. Thus we move a maximum of 45deg to prime the flipper.
+// Remember that there is no automatic calibration of the flipper - everything
+// is relative to the starting position during the match.
+#define P_FLIPPER_OFFSET 0 // Assume we start the flipper at *exactly* the right angle.
 
-// CLOCK RUMBLE TIMES
-#define CLOCK_RUMBLE 60000 // 60 seconds
+// CONTROLLER UPDATE TIMING
+#define T_CONTROLLER_UPDATE 100 // update controller sparingly due to comms overhead
+
+#endif

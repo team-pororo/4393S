@@ -2,7 +2,7 @@
 #include "ports.h"
 #include "drivetrain.h"
 #include "functions.h"
-
+#include "interface.h"
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -14,10 +14,13 @@ Drivetrain drivetrain(controller);
 Intake intake(controller);
 Puncher puncher(controller);
 Arm arm(controller);
-
+Interface interface(drivetrain, arm, puncher, intake, controller);
 
 void initialize() {
 	lcd::initialize();
+	arm.drop();
+	puncher.drop();
+	intake.drop();
 }
 
 /**

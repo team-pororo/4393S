@@ -1,3 +1,6 @@
+#ifndef DRIVETRAIN_H
+#define DRIVETRAIN_H
+
 #include "main.h"
 #include "ports.h"
 
@@ -11,10 +14,10 @@ enum DriveMode {
 
 class Drivetrain {
 public:
-	Motor l_f_motor = Motor(L_F_MOTOR, E_MOTOR_GEARSET_18);//, L_F_MOTOR_REVERSED);
-	Motor r_f_motor = Motor(R_F_MOTOR, E_MOTOR_GEARSET_18);//, R_F_MOTOR_REVERSED);
-	Motor l_r_motor = Motor(L_R_MOTOR, E_MOTOR_GEARSET_18);//, L_R_MOTOR_REVERSED);
-	Motor r_r_motor = Motor(R_R_MOTOR, E_MOTOR_GEARSET_18);//, R_R_MOTOR_REVERSED);
+	Motor l_f_motor = Motor(M_DRIVE_LF, E_MOTOR_GEARSET_18);//, L_F_MOTOR_REVERSED);
+	Motor r_f_motor = Motor(M_DRIVE_RF, E_MOTOR_GEARSET_18);//, R_F_MOTOR_REVERSED);
+	Motor l_r_motor = Motor(M_DRIVE_LR, E_MOTOR_GEARSET_18);//, L_R_MOTOR_REVERSED);
+	Motor r_r_motor = Motor(M_DRIVE_RR, E_MOTOR_GEARSET_18);//, R_R_MOTOR_REVERSED);
 	void drive(int l, int r);
 	Controller controller;
 public:
@@ -25,3 +28,5 @@ public:
 	void cheesydrive();
 	void handle();
 };
+
+#endif

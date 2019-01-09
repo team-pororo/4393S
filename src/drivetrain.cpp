@@ -47,19 +47,23 @@ void Drivetrain::cheesydrive() {
 
 void Drivetrain::handle() {
 	// Handles driving, switching drive systems, toggling front, etc.
-	if (controller.get_digital_new_press(TOGGLE_FRONT)) {
+	if (controller.get_digital_new_press(C_TOGGLE_FRONT)) {
 		inverseDriving = !inverseDriving;
 		if (inverseDriving) {
 			controller.set_text(2, 0, "Front:  FLIPPER");
 			delay(50);
 			controller.rumble("."); // notify user
+			delay(50);
 		} else {
 			controller.set_text(2, 0, "Front:   INTAKE");
 			delay(50);
 			controller.rumble("."); // notify user
+			delay(50);
 		}
 	}
-	if (controller.get_digital_new_press(TOGGLE_DRIVE)) {
+	// Drivetrain toggling was removed because we were running low on buttons
+
+	/*if (controller.get_digital_new_press(TOGGLE_DRIVE)) {
 		if (driveMode == TankDrive) {
 			driveMode = CheesyDrive;
 			controller.set_text(1, 0, "Mode: ChsyDrive");
@@ -71,7 +75,7 @@ void Drivetrain::handle() {
 			delay(50);
 			controller.rumble("-");
 		}
-	}
+	}*/
 	switch (driveMode) {
 		case TankDrive:
 		tankdrive();

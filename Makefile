@@ -9,7 +9,7 @@ CXXEXTS:=cpp c++ cc
 # but okapi requires >=7.3.0 functionality. Download the ARM toolchain directly
 # from https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads
 # and put the path here:
-override CXX:=/home/wesley/gcc-arm-none-eabi/bin/arm-none-eabi-g++
+#override CXX:=/home/wesley/gcc-arm-none-eabi/bin/arm-none-eabi-g++
 
 # probably shouldn't modify these, but you may need them below
 ROOT=.
