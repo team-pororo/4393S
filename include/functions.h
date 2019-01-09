@@ -22,14 +22,18 @@ public:
 class Puncher {
 public:
 	Motor motor = Motor(M_PUNCHER, E_MOTOR_GEARSET_18, false);
+#if EN_PUNCH_ANGLE
 	Motor angler = Motor(M_PUNCHER_ANGLE, E_MOTOR_GEARSET_18, false);
 	ADIButton limsw = ADIButton(SW_PUNCHER_ANGLE);
+#endif
 	Controller controller;
 	Puncher(Controller c);
+#if EN_PUNCH_ANGLE
 	void drop(); // initial calibration of angler, at lowest pos (vertical angle)
+	void moveTo(double pos);
+#endif
 	void handle();
 	void punchOnce(); // punch once
-	void moveTo(double pos);
 };
 
 class Arm {

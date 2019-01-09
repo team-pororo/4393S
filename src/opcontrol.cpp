@@ -21,21 +21,28 @@
 
 using namespace pros;
 
- extern Intake intake;
- extern Puncher puncher;
- extern Arm arm;
- extern Drivetrain drivetrain;
- extern Controller controller;
+extern Intake intake;
+extern Puncher puncher;
+extern Arm arm;
+extern Drivetrain drivetrain;
+extern Controller controller;
 extern Interface interface;
 
 void opcontrol() {
-  interface.zeroTime();
+  interface.timeStart = millis();
 
 	while (true) {
 		drivetrain.handle();
+
+#if EN_INTAKE
 		intake.handle();
+#endif
+#if EN_ARM
     arm.handle();
+#endif
+#if EN_PUNCH
 		puncher.handle();
+#endif
     interface.handle();
 		delay(20);
 	}

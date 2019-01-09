@@ -51,8 +51,11 @@ void Intake::drop() {
 Puncher::Puncher(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	motor.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
+
+	#if EN_PUNCH_ANGLE
 	angler.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	angler.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
+	#endif
 }
 
 void Puncher::handle() {
@@ -64,6 +67,10 @@ void Puncher::handle() {
 		//motor.move(0);
 		motor.move_absolute(motor.get_position(), 127); // hold in place
 	}
+
+
+#if EN_PUNCH_ANGLE
+
 	if (controller.get_digital(C_PUNCHER_DOWN)) {
 		angler.move(-S_PUNCHER_ANGLE);
 	} else if (controller.get_digital(C_PUNCHER_UP)) {
@@ -71,12 +78,16 @@ void Puncher::handle() {
 	} else {
 		angler.move_absolute(angler.get_position(), 127); // hold in place
 	}
+
+#endif
+
 }
 
 void Puncher::punchOnce() {
 	motor.move_relative(P_PUNCHER_ONEPUNCH, 127);
 }
 
+#if EN_PUNCH_ANGLE
 void Puncher::moveTo(double pos) {
 	angler.move_absolute(pos, 127);
 }
@@ -93,6 +104,8 @@ void Puncher::drop() {
 	angler.tare_position();
 	angler.move_absolute(0, 127); // brake
 }
+
+#endif
 
 Arm::Arm(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);

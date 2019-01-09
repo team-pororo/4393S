@@ -10,15 +10,9 @@ class Interface {
 public:
   int lastControllerUpdate; // update controller every 50ms max
   int timeStart; // keep track of match time
-  Drivetrain drivetrain;
-  Arm arm;
-  Puncher puncher;
-  Intake intake;
   Controller controller;
-  Interface(Drivetrain& drivetrain,
-                     Arm& arm, Puncher& puncher,
-                     Intake& intake, Controller& controller);
-  void zeroTime();
+  Interface(Controller controller);
+  void initialize();
   void updateDisplay();
   void updateController();
   void handle();

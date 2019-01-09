@@ -1,5 +1,16 @@
 #ifndef PORTS_H
 #define PORTS_H
+// ENABLE/DISABLE FUNCTIONS ===============
+#define EN_ARM false
+
+#define EN_PUNCH false
+// This one works differently - it directly bakes in/out functionality of the
+// puncher class. No harm in leaving it enabled if the puncher is disabled.
+#define EN_PUNCH_ANGLE true
+
+#define EN_INTAKE false
+
+
 // CONTROLS DEFINITIONS ====================
 
 // DRIVE CONTROLS

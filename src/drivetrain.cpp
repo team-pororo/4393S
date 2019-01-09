@@ -1,6 +1,7 @@
 #include "main.h"
 #include "ports.h"
 #include "drivetrain.h"
+#include <string>
 
 using namespace pros;
 
@@ -50,11 +51,13 @@ void Drivetrain::handle() {
 	if (controller.get_digital_new_press(C_TOGGLE_FRONT)) {
 		inverseDriving = !inverseDriving;
 		if (inverseDriving) {
+			delay(50);
 			controller.set_text(2, 0, "Front:  FLIPPER");
 			delay(50);
 			controller.rumble("."); // notify user
 			delay(50);
 		} else {
+			delay(50);
 			controller.set_text(2, 0, "Front:   INTAKE");
 			delay(50);
 			controller.rumble("."); // notify user
@@ -62,6 +65,7 @@ void Drivetrain::handle() {
 		}
 	}
 	// Drivetrain toggling was removed because we were running low on buttons
+	// As a workaround, LCD button 0 toggles drivetrain mode - check initialize.cpp for code
 
 	/*if (controller.get_digital_new_press(TOGGLE_DRIVE)) {
 		if (driveMode == TankDrive) {
@@ -76,12 +80,26 @@ void Drivetrain::handle() {
 			controller.rumble("-");
 		}
 	}*/
+	std::string line = "Frnt: ";
+
+	if (inverseDriving) {
+		line += "FLP";
+	} else {
+		line += "INT";
+	}
+
+	line += " Mode: ";
+
 	switch (driveMode) {
 		case TankDrive:
 		tankdrive();
+		line += "Tnk";
 		break;
 		case CheesyDrive:
 		cheesydrive();
+		line += "Chs";
 		break;
 	}
+
+	lcd::print(2, line.c_str());
 }

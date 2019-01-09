@@ -9,6 +9,9 @@ extern Arm arm;
 extern Drivetrain drivetrain;
 extern pros::Controller controller;
 
+extern bool redTeam;
+extern bool flagSide;
+
 /**
  * Runs the user autonomous code. This function will be started in its own task
  * with the default priority and stack size whenever the robot is enabled via
@@ -22,7 +25,5 @@ extern pros::Controller controller;
  */
 
 void autonomous() {
-  drivetrain.drive(127, 127);
-  delay(4000);
-  drivetrain.drive(0, 0);
+
 }
