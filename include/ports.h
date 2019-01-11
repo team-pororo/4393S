@@ -8,7 +8,7 @@
 // puncher class. No harm in leaving it enabled if the puncher is disabled.
 #define EN_PUNCH_ANGLE true
 
-#define EN_INTAKE false
+#define EN_INTAKE true
 
 
 // CONTROLS DEFINITIONS ====================
@@ -44,16 +44,16 @@
 #define M_DRIVE_RR 10
 
 // ARM
-#define M_ARM 3
+#define M_ARM 5
 #define SW_ARM 'A' // limit switch at stowed position to determine absolute pos
 
 // PUNCHER
-#define M_PUNCHER 4
-#define M_PUNCHER_ANGLE 5
+#define M_PUNCHER 3
+#define M_PUNCHER_ANGLE 6
 #define SW_PUNCHER_ANGLE 'C' // limit switch at most vertical angle
 
 // INTAKE/FLIPPER
-#define M_INTAKE 6
+#define M_INTAKE 8
 
 // PID CONSTANTS ==================
 
