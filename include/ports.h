@@ -35,11 +35,6 @@
 #define C_INTAKE_FORWARD DIGITAL_R1
 #define C_INTAKE_REVERSE DIGITAL_R2
 
-// REAR FLIPPER CONTROLS
-#define C_FLIPPER_PRIME DIGITAL_Y // Rotates flipper to 45deg angle
-//#define C_FLIPPER_RUN DIGITAL_X // Moves flipper for a second or so to flip cap
-// You can just do this with the intake controls.
-
 // PORT DEFINITIONS =================
 
 // DRIVETRAIN
@@ -59,8 +54,6 @@
 
 // INTAKE/FLIPPER
 #define M_INTAKE 6
-// no limit switch - the entire shaft is rotational only, so we'll just have to
-// make sure the flipper is in primed position before each match. Whatevs.
 
 // PID CONSTANTS ==================
 
@@ -89,14 +82,6 @@
 
 // INTAKE
 #define S_INTAKE 96 // throttle to prevent balls going haywire (thats what she said)
-
-// FLIPPER
-// As the flipper continuously spins, there is no one position for it to prime to.
-// We just go to the closest position where (position % 90) = P_FLIPPER_OFFSET
-// is true. Thus we move a maximum of 45deg to prime the flipper.
-// Remember that there is no automatic calibration of the flipper - everything
-// is relative to the starting position during the match.
-#define P_FLIPPER_OFFSET 0 // Assume we start the flipper at *exactly* the right angle.
 
 // CONTROLLER UPDATE TIMING
 #define T_CONTROLLER_UPDATE 100 // update controller sparingly due to comms overhead

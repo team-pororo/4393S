@@ -15,8 +15,6 @@ public:
 	void handle();
 	void spin(int direction); // -1 back, 0 stop, 1 forward for intake
 														// -1 flip cap, 0 stop, 1 climb platform for flipper
-	void prime(); // prime cap flipper
-	void drop(); // initialize motor
 };
 
 class Puncher {

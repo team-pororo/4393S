@@ -42,12 +42,6 @@ void Intake::spin(int direction) {
 	}
 }
 
-void Intake::drop() {
-	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD); // no calibration, so hold on tight
-	motor.tare_position();
-	motor.move_absolute(0, 127);
-}
-
 Puncher::Puncher(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	motor.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
