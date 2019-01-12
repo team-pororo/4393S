@@ -31,12 +31,12 @@ void toggleDrive() {
 		drivetrain.driveMode = CheesyDrive;
 		controller.set_text(1, 0, "Mode: ChsyDrive");
 		delay(50);
-		controller.rumble("-");
+		//controller.rumble("-");
 	} else if (drivetrain.driveMode == CheesyDrive) {
 		drivetrain.driveMode = TankDrive;
 		controller.set_text(1, 0, "Mode: TankDrive");
 		delay(50);
-		controller.rumble("-");
+		//controller.rumble("-");
 	}
 }
 
@@ -79,12 +79,22 @@ void disabled() {}
  * competition-specific initialization routines, such as an autonomous selector
  * on the LCD.
  *
- * This task will exit when the robot is enabled and autonomous or opcontrol
+ * This task will exit when the robot is e	lcd::initialize();
+
+	lcd::register_btn0_cb(toggleDrive);
+	lcd::register_btn1_cb(toggleTeam);
+	lcd::register_btn2_cb(toggleSide);nabled and autonomous or opcontrol
  * starts.
  */
 void competition_initialize() {
+	lcd::initialize();
+
+	lcd::register_btn0_cb(toggleDrive);
+	lcd::register_btn1_cb(toggleTeam);
+	lcd::register_btn2_cb(toggleSide);
 	while (true) {
 		lcd::print(0, "Competition Setup:");
+		lcd::print(7, "%04d", millis());
 
 		switch (drivetrain.driveMode) {
 			case (TankDrive):
@@ -109,6 +119,6 @@ void competition_initialize() {
 			lcd::print(4, "AIM THE PUNCHER AWAY FROM THE FLAGS");
 		}
 
-
+		delay(20);
 	}
 }

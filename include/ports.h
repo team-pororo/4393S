@@ -15,25 +15,32 @@
 
 // DRIVE CONTROLS
 // Joystick controls aren't included in this file, check the source
-#define C_TOGGLE_FRONT DIGITAL_X
+#define C_TOGGLE_FRONT DIGITAL_R2
 
 // ARM CONTROLS
-#define C_ARM_UP DIGITAL_LEFT
-#define C_ARM_DOWN DIGITAL_DOWN
-#define C_ARM_STOWED DIGITAL_RIGHT
-#define C_ARM_RAISED DIGITAL_UP
+#define C_ARM_UP DIGITAL_X
+// Arm manual down was removed - we don't have enough buttons!
+//#define C_ARM_DOWN DIGITAL_DOWN
+#define C_ARM_STOWED DIGITAL_B
+#define C_ARM_LOW_POLE DIGITAL_Y
+#define C_ARM_HIGH_POLE DIGITAL_A
 
 // PUNCHER CONTROLS
-#define C_PUNCHER_UP DIGITAL_A
-#define C_PUNCHER_DOWN DIGITAL_B
-#define C_PUNCHER_FIRE DIGITAL_L1
-#define C_PUNCHER_REVERSE DIGITAL_L2
+#define C_PUNCHER_UP DIGITAL_LEFT
+#define C_PUNCHER_DOWN DIGITAL_DOWN
+#define C_PUNCHER_FIRE DIGITAL_R1
+// Puncher reverse was removed - we don't have enough buttons!
+//#define C_PUNCHER_REVERSE DIGITAL_L2
 
 // NOTE: The intake and flipper will run off of the same motor.
 // INTAKE CONTROLS
 #define C_INTAKE_TOGGLE_MODE true
-#define C_INTAKE_FORWARD DIGITAL_R1
-#define C_INTAKE_REVERSE DIGITAL_R2
+#define C_INTAKE_FORWARD DIGITAL_L1
+#define C_INTAKE_REVERSE DIGITAL_L2
+
+// AUTOPILOT CONTROLS
+#define C_AUTOPILOT_FRONT DIGITAL_UP
+#define C_AUTOPILOT_REAR DIGITAL_RIGHT
 
 // PORT DEFINITIONS =================
 
@@ -55,6 +62,11 @@
 // INTAKE/FLIPPER
 #define M_INTAKE 8
 
+// VISION SENSORS
+#define VS_PORT_FRONT 4
+#define VS_PORT_REAR 7
+
+
 // PID CONSTANTS ==================
 
 // DRIVETRAIN
@@ -63,7 +75,8 @@
 
 // ARM
 #define P_ARM_STOWED 0 // duh
-#define P_ARM_RAISED 90 // PLACEHOLDER VALUE - CHANGE THIS
+#define P_ARM_LOW_POLE 45 // PLACEHOLDER VALUE - CHANGE THIS
+#define P_ARM_HIGH_POLE 90 // PLACEHOLDER VALUE - CHANGE THIS
 #define V_ARM 100 // Velocity for arm movements - Ensures consistent speed
 // see https://pros.cs.purdue.edu/v5/api/c/motors.html#motor-move-velocity
 // for more info on motor target velocity
@@ -85,5 +98,13 @@
 
 // CONTROLLER UPDATE TIMING
 #define T_CONTROLLER_UPDATE 100 // update controller sparingly due to comms overhead
+
+// VISION SENSOR SIGNATURE IDS ========
+
+#define SIG_CAP_RED_ID 0
+#define SIG_CAP_BLUE_ID 1
+
+#define SIG_FLAG_RED_ID 0
+#define SIG_FLAG_BLUE_ID 1
 
 #endif

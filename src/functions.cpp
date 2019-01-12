@@ -55,8 +55,9 @@ Puncher::Puncher(Controller c): controller(c) {
 void Puncher::handle() {
 	if (controller.get_digital(C_PUNCHER_FIRE)) {
 		motor.move(127);
-	} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
-		motor.move(-127);
+	// Puncher reverse was removed due to being mostly useless.
+	//} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
+	//	motor.move(-127);
 	} else {
 		//motor.move(0);
 		motor.move_absolute(motor.get_position(), 127); // hold in place
@@ -121,19 +122,25 @@ void Arm::drop() {
 
 void Arm::handle() {
 	if (controller.get_digital(C_ARM_UP)) {
-		motor.move(V_ARM);
+		motor.move_velocity(V_ARM);
 		manualMode = true;
 
-	} else if (controller.get_digital(C_ARM_DOWN)) {
-		motor.move(-V_ARM);
-		manualMode = true;
+  // There aren't enough buttons for a manual arm-down control!
+	// Workaround: Use the presets and manual arm-up to set a position.
+	//} else if (controller.get_digital(C_ARM_DOWN)) {
+	//	motor.move(-V_ARM);
+	//	manualMode = true;
 
 	} else if (controller.get_digital(C_ARM_STOWED)) {
 		position = P_ARM_STOWED;
 		goto updatepos;
 
-	} else if (controller.get_digital(C_ARM_RAISED)) {
-		position = P_ARM_RAISED;
+	} else if (controller.get_digital(C_ARM_LOW_POLE)) {
+		position = P_ARM_LOW_POLE;
+		goto updatepos;
+
+	} else if (controller.get_digital(C_ARM_HIGH_POLE)) {
+		position = P_ARM_HIGH_POLE;
 		goto updatepos;
 
 	} else {
