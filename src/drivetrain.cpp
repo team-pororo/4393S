@@ -19,16 +19,7 @@ void Drivetrain::drive(int l, int r) {
 	r_r_motor.move(-r);
 }
 
-void Drivetrain::tankdrive() {
-	// Basic control system - left stick and right stick to left/right motor.
-	drive(controller.get_analog(ANALOG_LEFT_Y),
-				controller.get_analog(ANALOG_RIGHT_Y));
-}
-
-void Drivetrain::cheesydrive() {
-	// Left stick to steer, right stick to control speed
-	int x = controller.get_analog(ANALOG_LEFT_X);
-	int y = controller.get_analog(ANALOG_RIGHT_Y);
+void Drivetrain::drive_cheesy(int x, int y) {
 	int v = (128 - abs(x))*(y/128)+y;
 	int w = (128 - abs(y))*(x/128)+x;
 	int l = (v+w);// /2;
@@ -44,6 +35,19 @@ void Drivetrain::cheesydrive() {
 		r = -127;
 	}
 	drive(l, r);
+}
+
+void Drivetrain::tankdrive() {
+	// Basic control system - left stick and right stick to left/right motor.
+	drive(controller.get_analog(ANALOG_LEFT_Y),
+				controller.get_analog(ANALOG_RIGHT_Y));
+}
+
+void Drivetrain::cheesydrive() {
+	// Left stick to steer, right stick to control speed
+	int x = controller.get_analog(ANALOG_LEFT_X);
+	int y = controller.get_analog(ANALOG_RIGHT_Y);
+	drive_cheesy(x, y);
 }
 
 void Drivetrain::handle() {

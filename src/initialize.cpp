@@ -3,12 +3,18 @@
 #include "drivetrain.h"
 #include "functions.h"
 #include "interface.h"
+#include "autopilot.h"
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
  * All other competition modes are blocked by initialize; it is recommended
  * to keep execution time for this mode under a few seconds.
  */
+
+ // Autonomous Selection Variables
+ bool redTeam = true;
+ bool flagSide = true; // flag or cap side auto program
+
 pros::Controller controller = pros::Controller(CONTROLLER_MASTER);
 Drivetrain drivetrain(controller);
 #if EN_INTAKE
@@ -22,9 +28,8 @@ Arm arm(controller);
 #endif
 Interface interface(controller);
 
-// Autonomous Selection Variables
-bool redTeam = true;
-bool flagSide = true; // flag or cap side auto program
+FlagAuto flag_auto(redTeam, controller, drivetrain, puncher);
+CapAuto cap_auto(redTeam, controller, drivetrain, intake);
 
 void toggleDrive() {
 	if (drivetrain.driveMode == TankDrive) {
@@ -61,9 +66,18 @@ void initialize() {
 	delay(50);
 	controller.set_text(2, 0, "Front:   INTAKE");
 	delay(50);
-	//arm.drop();
-	//puncher.drop();
-	//intake.drop();
+#if EN_ARM
+	arm.drop();
+#endif
+#if EN_PUNCH
+	puncher.drop();
+#endif
+#if EN_VIS_FRONT
+	flag_auto.setup();
+#endif
+#if EN_VIS_REAR
+	cap_auto.setup();
+#endif
 }
 
 /**

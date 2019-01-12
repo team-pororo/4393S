@@ -3,6 +3,7 @@
 #include "drivetrain.h"
 #include "functions.h"
 #include "interface.h"
+#include "autopilot.h"
 #include <string>
 
 /**
@@ -27,23 +28,27 @@ extern Arm arm;
 extern Drivetrain drivetrain;
 extern Controller controller;
 extern Interface interface;
+extern FlagAuto flag_auto;
+extern CapAuto cap_auto;
 
 void opcontrol() {
   interface.timeStart = millis();
 
 	while (true) {
-		drivetrain.handle();
+    if (!autopilot(controller, cap_auto, flag_auto)) {
+      drivetrain.handle();
 
-#if EN_INTAKE
-		intake.handle();
-#endif
-#if EN_ARM
-    arm.handle();
-#endif
-#if EN_PUNCH
-		puncher.handle();
-#endif
-    interface.handle();
+  #if EN_INTAKE
+      intake.handle();
+  #endif
+  #if EN_ARM
+      arm.handle();
+  #endif
+  #if EN_PUNCH
+      puncher.handle();
+  #endif
+      interface.handle();
+    }
 		delay(20);
 	}
 }

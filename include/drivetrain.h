@@ -28,6 +28,7 @@ public:
 	void tankdrive();
 	void cheesydrive();
 	void handle();
+	void drive_cheesy(int x, int y);
 };
 
 #endif

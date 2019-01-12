@@ -3,12 +3,15 @@
 // ENABLE/DISABLE FUNCTIONS ===============
 #define EN_ARM false
 
-#define EN_PUNCH false
+#define EN_PUNCH true
 // This one works differently - it directly bakes in/out functionality of the
 // puncher class. No harm in leaving it enabled if the puncher is disabled.
 #define EN_PUNCH_ANGLE true
 
 #define EN_INTAKE true
+
+#define EN_VIS_FRONT false
+#define EN_VIS_REAR false
 
 
 // CONTROLS DEFINITIONS ====================
@@ -51,20 +54,20 @@
 #define M_DRIVE_RR 10
 
 // ARM
-#define M_ARM 5
+#define M_ARM 7
 #define SW_ARM 'A' // limit switch at stowed position to determine absolute pos
 
 // PUNCHER
-#define M_PUNCHER 3
-#define M_PUNCHER_ANGLE 6
+#define M_PUNCHER 8
+#define M_PUNCHER_ANGLE 5
 #define SW_PUNCHER_ANGLE 'C' // limit switch at most vertical angle
 
 // INTAKE/FLIPPER
-#define M_INTAKE 8
+#define M_INTAKE 3
 
 // VISION SENSORS
 #define VS_PORT_FRONT 4
-#define VS_PORT_REAR 7
+#define VS_PORT_REAR 6
 
 
 // PID CONSTANTS ==================
