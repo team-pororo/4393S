@@ -16,14 +16,14 @@ void FlagAuto::setup() {
 void CapAuto::loop() {
   vision_object_s_t cap;
   if (redTeam) {
-    cap = vision.get_by_sig(0, SIG_CAP_RED_ID);
-    if (cap.signature != SIG_CAP_RED_ID) {
+    cap = vision.get_by_sig(0, SIG_CAP_BLUE_ID);
+    if (cap.signature != SIG_CAP_BLUE_ID) {
       lcd::print(6, "NO CAP!");
       return; // no cap found! Do nothing
     }
   } else {
-    cap = vision.get_by_sig(0, SIG_CAP_BLUE_ID);
-    if (cap.signature != SIG_CAP_BLUE_ID) {
+    cap = vision.get_by_sig(0, SIG_CAP_RED_ID);
+    if (cap.signature != SIG_CAP_RED_ID) {
       lcd::print(6, "NO CAP!");
       return; // no cap found! Do nothing
     }
@@ -46,14 +46,14 @@ void CapAuto::loop() {
 void FlagAuto::loop() {
   vision_object_s_t flag;
   if (redTeam) {
-    flag = vision.get_by_sig(0, SIG_CAP_RED_ID);
-    if (flag.signature != SIG_CAP_RED_ID) {
+    flag = vision.get_by_sig(0, SIG_FLAG_BLUE_ID);
+    if (flag.signature != SIG_FLAG_BLUE_ID) {
       lcd::print(5, "NO FLAG!");
       return; // no flag found! Do nothing
     }
   } else {
-    flag = vision.get_by_sig(0, SIG_CAP_BLUE_ID);
-    if (flag.signature != SIG_CAP_BLUE_ID) {
+    flag = vision.get_by_sig(0, SIG_FLAG_RED_ID);
+    if (flag.signature != SIG_FLAG_RED_ID) {
       lcd::print(5, "NO FLAG!");
       return; // no flag found! Do nothing
     }
