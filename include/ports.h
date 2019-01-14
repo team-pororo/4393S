@@ -35,7 +35,6 @@
 // Puncher reverse was removed - we don't have enough buttons!
 //#define C_PUNCHER_REVERSE DIGITAL_L2
 
-// NOTE: The intake and flipper will run off of the same motor.
 // INTAKE CONTROLS
 #define C_INTAKE_TOGGLE_MODE true
 #define C_INTAKE_FORWARD DIGITAL_L1
@@ -66,8 +65,8 @@
 #define M_INTAKE 3
 
 // VISION SENSORS
-#define VS_PORT_FRONT 4
-#define VS_PORT_REAR 6
+#define VS_PORT_FLAGS 4
+#define VS_PORT_CAPS 6
 
 
 // PID CONSTANTS ==================
@@ -97,7 +96,9 @@
 #define T_PUNCHER_ANGLE_TIMEOUT 2000 // calibration timeout - 2secs
 
 // INTAKE
-#define S_INTAKE 96 // throttle to prevent balls going haywire (thats what she said)
+#define S_INTAKE 127 // throttle to prevent balls going haywire (thats what she said)
+// or don't throttle. I'm going to try it without and see what happens. The
+// extra speed could help flip caps.
 
 // CONTROLLER UPDATE TIMING
 #define T_CONTROLLER_UPDATE 100 // update controller sparingly due to comms overhead

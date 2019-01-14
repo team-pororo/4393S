@@ -13,8 +13,7 @@ public:
 	Controller controller;
 	Intake(Controller c): controller(c) {};
 	void handle();
-	void spin(int direction); // -1 back, 0 stop, 1 forward for intake
-														// -1 flip cap, 0 stop, 1 climb platform for flipper
+	void spin(int direction); // -1 flip cap, 0 stop, 1 flip ball
 };
 
 class Puncher {
