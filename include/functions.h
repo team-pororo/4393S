@@ -19,16 +19,8 @@ public:
 class Puncher {
 public:
 	Motor motor = Motor(M_PUNCHER, E_MOTOR_GEARSET_18, false);
-#if EN_PUNCH_ANGLE
-	Motor angler = Motor(M_PUNCHER_ANGLE, E_MOTOR_GEARSET_18, false);
-	ADIButton limsw = ADIButton(SW_PUNCHER_ANGLE);
-#endif
 	Controller controller;
 	Puncher(Controller c);
-#if EN_PUNCH_ANGLE
-	void drop(); // initial calibration of angler, at lowest pos (vertical angle)
-	void moveTo(double pos);
-#endif
 	void handle();
 	void punchOnce(); // punch once
 };
@@ -42,6 +34,18 @@ public:
 	double position; // Arm target position in degrees
 	bool manualMode = false;
 	Arm(Controller c);
+	void handle();
+	void drop(); // initial calibration, at stowed position
+	void moveTo(double pos);
+};
+
+class Flipper {
+public:
+	Motor motor = Motor(M_FLIPPER, E_MOTOR_GEARSET_18, false);
+	ADIButton limsw = ADIButton(SW_FLIPPER);
+	Controller controller;
+	double position;
+	Flipper(Controller c);
 	void handle();
 	void drop(); // initial calibration, at stowed position
 	void moveTo(double pos);

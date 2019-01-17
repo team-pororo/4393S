@@ -28,6 +28,7 @@ extern Arm arm;
 extern Drivetrain drivetrain;
 extern Controller controller;
 extern Interface interface;
+extern Flipper flipper;
 extern FlagAuto flag_auto;
 extern CapAuto cap_auto;
 
@@ -43,6 +44,9 @@ void opcontrol() {
   #endif
   #if EN_ARM
       arm.handle();
+  #endif
+  #if EN_FLIPPER
+      flipper.handle();
   #endif
   #if EN_PUNCH
       puncher.handle();

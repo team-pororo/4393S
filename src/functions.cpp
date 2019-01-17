@@ -45,11 +45,6 @@ void Intake::spin(int direction) {
 Puncher::Puncher(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	motor.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
-
-	#if EN_PUNCH_ANGLE
-	angler.set_brake_mode(E_MOTOR_BRAKE_HOLD);
-	angler.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
-	#endif
 }
 
 void Puncher::handle() {
@@ -62,45 +57,12 @@ void Puncher::handle() {
 		//motor.move(0);
 		motor.move_absolute(motor.get_position(), 127); // hold in place
 	}
-
-
-#if EN_PUNCH_ANGLE
-
-	if (controller.get_digital(C_PUNCHER_DOWN)) {
-		angler.move(-S_PUNCHER_ANGLE);
-	} else if (controller.get_digital(C_PUNCHER_UP)) {
-		angler.move(S_PUNCHER_ANGLE);
-	} else {
-		angler.move_absolute(angler.get_position(), 127); // hold in place
-	}
-
-#endif
-
 }
 
 void Puncher::punchOnce() {
 	motor.move_relative(P_PUNCHER_ONEPUNCH, 127);
 }
 
-#if EN_PUNCH_ANGLE
-void Puncher::moveTo(double pos) {
-	angler.move_absolute(pos, 127);
-}
-
-void Puncher::drop() {
-  // Uses the potentiometer to drop the puncher angler to lowest position
-	// Then tares the angler motor - after this calibration, encoders
-	// only are used
-	int start = millis(); // Timeout quickly as this code is blocking
-	while (!limsw.get_value() && millis() < (unsigned int)(T_PUNCHER_ANGLE_TIMEOUT + start)) {
-		angler.move(-S_PUNCHER_ANGLE_DROP);
-	}
-	angler.move(0); // stop
-	angler.tare_position();
-	angler.move_absolute(0, 127); // brake
-}
-
-#endif
 
 Arm::Arm(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
@@ -108,7 +70,7 @@ Arm::Arm(Controller c): controller(c) {
 };
 
 void Arm::drop() {
-  // Uses the potentiometer to drop the arm to lowest position
+  // Uses the limit switch to drop the arm to lowest position
 	// Then tares the arm motor - after this calibration, encoders
 	// only are used
 	int start = millis(); // Timeout quickly as this code is blocking
@@ -161,4 +123,34 @@ updatepos:
 
 void Arm::moveTo(double pos) {
 	motor.move_absolute(pos, 127);
+}
+
+Flipper::Flipper(Controller c) : controller(c) {
+	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+	motor.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
+}
+
+void Flipper::drop() {
+	// Uses the limit switch to drop the arm to lowest position
+	// Then tares the arm motor - after this calibration, encoders
+	// only are used
+	int start = millis(); // Timeout quickly as this code is blocking
+	while (!limsw.get_value() && millis() < (unsigned int)(T_FLIPPER_TIMEOUT + start)) {
+		motor.move(-S_FLIPPER_DROP);
+	}
+	motor.move(0); // stop
+	motor.tare_position();
+	motor.move_absolute(0, 127); // brake
+}
+
+void Flipper::handle() {
+	if (controller.get_digital(C_FLIPPER_DOWN)) {
+		motor.move_absolute(P_FLIPPER_STOWED, 127);
+	} else if (controller.get_digital(C_FLIPPER_UP)) {
+		motor.move_absolute(P_FLIPPER_RAISED, 127);
+	}
+}
+
+void Flipper::moveTo(double pos) {
+	motor.move_absolute(position, 127);
 }

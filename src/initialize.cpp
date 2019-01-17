@@ -26,6 +26,9 @@ Puncher puncher(controller);
 #if EN_ARM
 Arm arm(controller);
 #endif
+#if EN_FLIPPER
+Flipper flipper(controller);
+#endif
 Interface interface(controller);
 
 FlagAuto flag_auto(redTeam, controller, drivetrain, puncher);
@@ -69,8 +72,8 @@ void initialize() {
 #if EN_ARM
 	arm.drop();
 #endif
-#if EN_PUNCH
-	puncher.drop();
+#if EN_FLIPPER
+	flipper.drop();
 #endif
 #if EN_VIS_FRONT
 	flag_auto.setup();

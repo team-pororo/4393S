@@ -4,9 +4,8 @@
 #define EN_ARM false
 
 #define EN_PUNCH true
-// This one works differently - it directly bakes in/out functionality of the
-// puncher class. No harm in leaving it enabled if the puncher is disabled.
-#define EN_PUNCH_ANGLE true
+
+#define EN_FLIPPER false
 
 #define EN_INTAKE true
 
@@ -29,8 +28,6 @@
 #define C_ARM_HIGH_POLE DIGITAL_A
 
 // PUNCHER CONTROLS
-#define C_PUNCHER_UP DIGITAL_LEFT
-#define C_PUNCHER_DOWN DIGITAL_DOWN
 #define C_PUNCHER_FIRE DIGITAL_R1
 // Puncher reverse was removed - we don't have enough buttons!
 //#define C_PUNCHER_REVERSE DIGITAL_L2
@@ -39,6 +36,10 @@
 #define C_INTAKE_TOGGLE_MODE true
 #define C_INTAKE_FORWARD DIGITAL_L1
 #define C_INTAKE_REVERSE DIGITAL_L2
+
+// FLIPPER CONTROLS
+#define C_FLIPPER_DOWN DIGITAL_DOWN
+#define C_FLIPPER_UP DIGITAL_LEFT
 
 // AUTOPILOT CONTROLS
 #define C_AUTOPILOT_FRONT DIGITAL_UP
@@ -58,8 +59,8 @@
 
 // PUNCHER
 #define M_PUNCHER 8
-#define M_PUNCHER_ANGLE 5
-#define SW_PUNCHER_ANGLE 'C' // limit switch at most vertical angle
+#define M_FLIPPER 5
+#define SW_FLIPPER 'C' // limit switch at most vertical angle
 
 // INTAKE/FLIPPER
 #define M_INTAKE 3
@@ -79,11 +80,18 @@
 #define P_ARM_STOWED 0 // duh
 #define P_ARM_LOW_POLE 45 // PLACEHOLDER VALUE - CHANGE THIS
 #define P_ARM_HIGH_POLE 90 // PLACEHOLDER VALUE - CHANGE THIS
+
+#define P_FLIPPER_STOWED 0
+#define P_FLIPPER_RAISED 90 // PLACEHOLDER VALUE - CHANGE THIS
+
 #define V_ARM 100 // Velocity for arm movements - Ensures consistent speed
 // see https://pros.cs.purdue.edu/v5/api/c/motors.html#motor-move-velocity
 // for more info on motor target velocity
 #define S_ARM_DROP 64 // max speed during calibration
 #define T_ARM_TIMEOUT 2000 // calibration timeout - 2secs
+
+#define S_FLIPPER_DROP 64
+#define T_FLIPPER_TIMEOUT 2000
 
 // PUNCHER
 // These appear inverted because as the puncher *lowers*, the angle *increases*.

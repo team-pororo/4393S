@@ -7,6 +7,7 @@ extern Intake intake;
 extern Puncher puncher;
 extern Arm arm;
 extern Drivetrain drivetrain;
+extern Flipper flipper;
 extern pros::Controller controller;
 
 extern bool redTeam;
