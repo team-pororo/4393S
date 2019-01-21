@@ -53,14 +53,19 @@
 #define M_DRIVE_LR 9
 #define M_DRIVE_RR 10
 
-// ARM
-#define M_ARM 7
-#define SW_ARM 'A' // limit switch at stowed position to determine absolute pos
+
 
 // PUNCHER
-#define M_PUNCHER 8
-#define M_FLIPPER 5
-#define SW_FLIPPER 'C' // limit switch at most vertical angle
+#define M_PUNCHER 3
+#define SW_PUNCHER 'A'
+
+// FLIPPER
+#define M_FLIPPER 4
+#define SW_FLIPPER 'B' // limit switch at most vertical angle
+
+// ARM
+#define M_ARM 5
+#define SW_ARM 'C' // limit switch at stowed position to determine absolute pos
 
 // INTAKE/FLIPPER
 #define M_INTAKE 3
