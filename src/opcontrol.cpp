@@ -30,13 +30,12 @@ extern Controller controller;
 extern Interface interface;
 extern Flipper flipper;
 extern FlagAuto flag_auto;
-extern CapAuto cap_auto;
 
 void opcontrol() {
   interface.timeStart = millis();
 
 	while (true) {
-    if (!autopilot(controller, cap_auto, flag_auto)) {
+    if (!flag_auto.runAuto()) {
       drivetrain.handle();
 
   #if EN_INTAKE

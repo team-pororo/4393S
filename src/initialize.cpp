@@ -33,7 +33,6 @@ Flipper flipper(controller);
 Interface interface(controller);
 
 FlagAuto flag_auto(redTeam, controller, drivetrain, puncher);
-CapAuto cap_auto(redTeam, controller, drivetrain, intake);
 
 void toggleDrive() {
 	if (drivetrain.driveMode == TankDrive) {
