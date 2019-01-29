@@ -5,7 +5,7 @@
 
 #define EN_PUNCH true
 
-#define EN_FLIPPER false
+#define EN_FLIPPER true
 
 #define EN_INTAKE true
 
@@ -30,7 +30,7 @@
 // PUNCHER CONTROLS
 #define C_PUNCHER_FIRE DIGITAL_R1
 // Puncher reverse was removed - we don't have enough buttons!
-//#define C_PUNCHER_REVERSE DIGITAL_L2
+#define C_PUNCHER_REVERSE DIGITAL_B
 
 // INTAKE CONTROLS
 #define C_INTAKE_TOGGLE_MODE true
@@ -38,8 +38,8 @@
 #define C_INTAKE_REVERSE DIGITAL_L2
 
 // FLIPPER CONTROLS
-#define C_FLIPPER_DOWN DIGITAL_DOWN
-#define C_FLIPPER_UP DIGITAL_LEFT
+#define C_FLIPPER_DOWN DIGITAL_LEFT
+#define C_FLIPPER_UP DIGITAL_DOWN
 
 // AUTOPILOT CONTROLS
 #define C_AUTOPILOT_FRONT DIGITAL_UP
@@ -56,23 +56,23 @@
 
 
 // PUNCHER
-#define M_PUNCHER 3
+#define M_PUNCHER 4
 #define SW_PUNCHER 'A'
 
 // FLIPPER
-#define M_FLIPPER 4
+#define M_FLIPPER 5
 #define SW_FLIPPER 'B' // limit switch at most vertical angle
 
 // ARM
-#define M_ARM 5
+#define M_ARM 6
 #define SW_ARM 'C' // limit switch at stowed position to determine absolute pos
 
 // INTAKE/FLIPPER
 #define M_INTAKE 3
 
 // VISION SENSORS
-#define VS_PORT_FLAGS 4
-#define VS_PORT_CAPS 6
+#define VS_PORT_FLAGS 7
+#define VS_PORT_CAPS 8
 
 
 // PID CONSTANTS ==================
@@ -87,7 +87,7 @@
 #define P_ARM_HIGH_POLE 90 // PLACEHOLDER VALUE - CHANGE THIS
 
 #define P_FLIPPER_STOWED 0
-#define P_FLIPPER_RAISED 90 // PLACEHOLDER VALUE - CHANGE THIS
+#define P_FLIPPER_RAISED -140 // PLACEHOLDER VALUE - CHANGE THIS
 
 #define V_ARM 100 // Velocity for arm movements - Ensures consistent speed
 // see https://pros.cs.purdue.edu/v5/api/c/motors.html#motor-move-velocity
@@ -109,7 +109,7 @@
 #define T_PUNCHER_ANGLE_TIMEOUT 2000 // calibration timeout - 2secs
 
 // INTAKE
-#define S_INTAKE 127 // throttle to prevent balls going haywire (thats what she said)
+#define S_INTAKE 150 // throttle to prevent balls going haywire (thats what she said)
 // or don't throttle. I'm going to try it without and see what happens. The
 // extra speed could help flip caps.
 

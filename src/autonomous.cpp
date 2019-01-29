@@ -12,6 +12,7 @@ extern pros::Controller controller;
 
 extern bool redTeam;
 extern bool flagSide;
+extern bool autoEN;
 
 /**
  * Runs the user autonomous code. This function will be started in its own task
@@ -25,6 +26,15 @@ extern bool flagSide;
  * from where it left off.
  */
 
-void autonomous() {
 
+void autonomous() {
+  if (autoEN) {
+    drivetrain.drive(-64, -64);
+    delay(2500);
+    drivetrain.drive(0, 0);
+    delay(1000);
+    drivetrain.drive(64, 64);
+    delay(2500);
+    drivetrain.drive(0, 0);
+  }
 }

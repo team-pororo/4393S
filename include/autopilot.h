@@ -7,20 +7,6 @@
 
 using namespace pros;
 
-class CapAuto {
-public:
-  bool& redTeam;
-  Controller controller;
-  Drivetrain drivetrain;
-  Intake intake;
-  Vision vision = Vision(VS_PORT_CAPS, E_VISION_ZERO_CENTER);
-  CapAuto(bool& t, Controller c, Drivetrain d, Intake i) : redTeam(t), controller(c), drivetrain(d), intake(i) {};
-  vision_signature_s_t redcap;
-  vision_signature_s_t bluecap;
-  void setup();
-  void loop();
-};
-
 class FlagAuto {
 public:
   bool& redTeam;
@@ -29,13 +15,15 @@ public:
   Puncher puncher;
   Vision vision = Vision(VS_PORT_FLAGS, E_VISION_ZERO_CENTER);
   FlagAuto(bool& t, Controller c, Drivetrain d, Puncher p) : redTeam(t), controller(c), drivetrain(d), puncher(p) {};
-  vision_signature_s_t redflag;
-  vision_signature_s_t blueflag;
+  vision_signature_s_t redFlag;
+  vision_signature_s_t blueFlag;
+  vision_signature_s_t greenTarget;
+  vision_color_code_t redFlagCode;
+  vision_color_code_t blueFlagCode;
   void setup();
   void loop();
+  bool runAuto();
 };
-
-bool autopilot(Controller c, CapAuto cap, FlagAuto flag);
 
 
 #endif

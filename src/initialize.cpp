@@ -14,6 +14,7 @@
  // Autonomous Selection Variables
  bool redTeam = true;
  bool flagSide = true; // flag or cap side auto program
+ bool autoEN = true;
 
 pros::Controller controller = pros::Controller(CONTROLLER_MASTER);
 Drivetrain drivetrain(controller);
@@ -56,12 +57,16 @@ void toggleSide() {
 	flagSide = !flagSide;
 }
 
+void toggleAuto() {
+  autoEN = !autoEN;
+}
+
 void initialize() {
 	lcd::initialize();
 
-	lcd::register_btn0_cb(toggleDrive);
-	lcd::register_btn1_cb(toggleTeam);
-	lcd::register_btn2_cb(toggleSide);
+	lcd::register_btn0_cb(toggleAuto);
+	lcd::register_btn1_cb(toggleAuto);
+	lcd::register_btn2_cb(toggleAuto);
 
 	controller.clear();
 	delay(50);
@@ -106,14 +111,14 @@ void disabled() {}
 void competition_initialize() {
 	lcd::initialize();
 
-	lcd::register_btn0_cb(toggleDrive);
-	lcd::register_btn1_cb(toggleTeam);
-	lcd::register_btn2_cb(toggleSide);
+	lcd::register_btn0_cb(toggleAuto);
+	lcd::register_btn1_cb(toggleAuto);
+	lcd::register_btn2_cb(toggleAuto);
 	while (true) {
 		lcd::print(0, "Competition Setup:");
 		lcd::print(7, "%04d", millis());
 
-		switch (drivetrain.driveMode) {
+		/*switch (drivetrain.driveMode) {
 			case (TankDrive):
 			lcd::print(1, "Drive Mode: Tank Drive");
 			break;
@@ -134,7 +139,15 @@ void competition_initialize() {
 		} else {
 			lcd::print(3, "Side: CAP");
 			lcd::print(4, "AIM THE PUNCHER AWAY FROM THE FLAGS");
-		}
+		}*/
+
+    if (autoEN) {
+      lcd::print(1, "AUTONOMOUS IS ENABLED");
+      lcd::print(2, "ROBOT WILL DRIVE TOWARD TOWERS");
+    } else {
+      lcd::print(1, "AUTONOMOUS IS DISABLED");
+      lcd::print(2, "ROBOT WILL NOT DRIVE DURING AUTO");
+    }
 
 		delay(20);
 	}

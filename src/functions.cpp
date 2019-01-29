@@ -15,17 +15,17 @@ void Intake::handle() {
 	#else
 
 	if (controller.get_digital(C_INTAKE_FORWARD)) {
-		motor.move(S_INTAKE);
+		motor.move_velocity(S_INTAKE);
 	}
 
 	#endif
 
 	if (controller.get_digital(C_INTAKE_REVERSE)) {
-		motor.move(-S_INTAKE);
+		motor.move_velocity(-S_INTAKE);
 	} else if (intakeSpinning) { // will always be false if not in toggle mode
-		motor.move(S_INTAKE);
+		motor.move_velocity(S_INTAKE);
 	} else {
-		motor.move(0);
+		motor.move_velocity(0);
 	}
 }
 
@@ -51,8 +51,8 @@ void Puncher::handle() {
 	if (controller.get_digital(C_PUNCHER_FIRE)) {
 		motor.move(127);
 	// Puncher reverse was removed due to being mostly useless.
-	//} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
-	//	motor.move(-127);
+	} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
+		motor.move(-127);
 	} else {
 		//motor.move(0);
 		motor.move_absolute(motor.get_position(), 127); // hold in place
@@ -136,7 +136,7 @@ void Flipper::drop() {
 	// only are used
 	int start = millis(); // Timeout quickly as this code is blocking
 	while (!limsw.get_value() && millis() < (unsigned int)(T_FLIPPER_TIMEOUT + start)) {
-		motor.move(-S_FLIPPER_DROP);
+		motor.move(S_FLIPPER_DROP);
 	}
 	motor.move(0); // stop
 	motor.tare_position();
