@@ -2,9 +2,13 @@
 #include "ports.h"
 #include "drivetrain.h"
 #include <string>
+#include "okapi/api.hpp"
 
 using namespace pros;
 
+Drivetrain::Drivetrain(Controller c) : controller(c) {
+	//okapi = okapi::ChassisControllerFactory::create( {M_DRIVE_LF, M_DRIVE_LR}, {-M_DRIVE_RF, -M_DRIVE_LR}, okapi::AbstractMotor::gearset::green, {4_in, 13.5_in});
+}
 
 void Drivetrain::drive(int l, int r) {
 	// Low-level drive function that respects inverse drive.
@@ -14,9 +18,9 @@ void Drivetrain::drive(int l, int r) {
 		r = -a;
 	}
 	l_f_motor.move(l);
-	r_f_motor.move(-r);
+	r_f_motor.move(r);
  	l_r_motor.move(l);
-	r_r_motor.move(-r);
+	r_r_motor.move(r);
 }
 
 void Drivetrain::drive_cheesy(int x, int y) {
@@ -37,6 +41,8 @@ void Drivetrain::drive_cheesy(int x, int y) {
 	drive(l, r);
 }
 
+
+
 void Drivetrain::tankdrive() {
 	// Basic control system - left stick and right stick to left/right motor.
 	drive(controller.get_analog(ANALOG_LEFT_Y),
@@ -48,6 +54,20 @@ void Drivetrain::cheesydrive() {
 	int x = controller.get_analog(ANALOG_LEFT_X);
 	int y = controller.get_analog(ANALOG_RIGHT_Y);
 	drive_cheesy(x, y);
+}
+
+void Drivetrain::setBrakeMode(motor_brake_mode_e mode) {
+	l_f_motor.set_brake_mode(mode);
+	l_r_motor.set_brake_mode(mode);
+	r_f_motor.set_brake_mode(mode);
+	r_r_motor.set_brake_mode(mode);
+	if (mode == E_MOTOR_BRAKE_HOLD) {
+		// hold in place!
+		l_f_motor.move_absolute(l_f_motor.get_position(), 200);
+		l_r_motor.move_absolute(l_r_motor.get_position(), 200);
+		r_f_motor.move_absolute(r_f_motor.get_position(), 200);
+		r_r_motor.move_absolute(r_r_motor.get_position(), 200);
+	}
 }
 
 void Drivetrain::handle() {
@@ -68,6 +88,22 @@ void Drivetrain::handle() {
 			delay(50);
 		}
 	}
+
+	if (controller.get_digital(DIGITAL_A)) {
+		setBrakeMode(E_MOTOR_BRAKE_HOLD);
+		lcd::print(6, "AutoBrake Engaged");
+	} else {
+		setBrakeMode(E_MOTOR_BRAKE_COAST);
+		lcd::print(6, "AutoBrake Disengaged");
+		switch (driveMode) {
+			case TankDrive:
+			tankdrive();
+			break;
+			case CheesyDrive:
+			cheesydrive();
+			break;
+		}
+	}
 	// Drivetrain toggling was removed because we were running low on buttons
 	// As a workaround, LCD button 0 toggles drivetrain mode - check initialize.cpp for code
 
@@ -84,26 +120,7 @@ void Drivetrain::handle() {
 			controller.rumble("-");
 		}
 	}*/
-	std::string line = "Frnt: ";
 
-	if (inverseDriving) {
-		line += "FLP";
-	} else {
-		line += "INT";
-	}
 
-	line += " Mode: ";
-
-	switch (driveMode) {
-		case TankDrive:
-		tankdrive();
-		line += "Tnk";
-		break;
-		case CheesyDrive:
-		cheesydrive();
-		line += "Chs";
-		break;
-	}
-
-	lcd::print(2, line.c_str());
+	//lcd::print(2, line.c_str());
 }

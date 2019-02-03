@@ -14,12 +14,13 @@ public:
   Drivetrain drivetrain;
   Puncher puncher;
   Vision vision = Vision(VS_PORT_FLAGS, E_VISION_ZERO_CENTER);
-  FlagAuto(bool& t, Controller c, Drivetrain d, Puncher p) : redTeam(t), controller(c), drivetrain(d), puncher(p) {};
+  FlagAuto(bool& t, Controller& c, Drivetrain& d, Puncher& p) : redTeam(t), controller(c), drivetrain(d), puncher(p) {};
   vision_signature_s_t redFlag;
   vision_signature_s_t blueFlag;
   vision_signature_s_t greenTarget;
   vision_color_code_t redFlagCode;
   vision_color_code_t blueFlagCode;
+  vision_object_s_t getFlag(int);
   void setup();
   void loop();
   bool runAuto();

@@ -3,6 +3,9 @@
 
 #include "main.h"
 #include "ports.h"
+#include "okapi/api.hpp"
+
+using namespace okapi::literals;
 
 using namespace pros;
 
@@ -19,9 +22,10 @@ public:
 	Motor l_r_motor = Motor(M_DRIVE_LR, E_MOTOR_GEARSET_18);
 	Motor r_r_motor = Motor(M_DRIVE_RR, E_MOTOR_GEARSET_18);
 	void drive(int l, int r);
+	void setBrakeMode(motor_brake_mode_e mode);
 	Controller controller;
 public:
-	Drivetrain(Controller c) : controller(c) {};
+	Drivetrain(Controller c);
 	bool inverseDriving = false;
 	DriveMode driveMode = TankDrive;
 	//DriveMode driveMode = CheesyDrive;

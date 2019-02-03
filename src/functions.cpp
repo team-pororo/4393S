@@ -60,7 +60,11 @@ void Puncher::handle() {
 }
 
 void Puncher::punchOnce() {
+	int tare = motor.get_position();
 	motor.move_relative(P_PUNCHER_ONEPUNCH, 127);
+	while (motor.get_position() - tare < P_PUNCHER_ONEPUNCH - 5) {
+		delay(2);
+	}
 }
 
 
@@ -145,12 +149,12 @@ void Flipper::drop() {
 
 void Flipper::handle() {
 	if (controller.get_digital(C_FLIPPER_DOWN)) {
-		motor.move_absolute(P_FLIPPER_STOWED, 127);
+		motor.move_absolute(P_FLIPPER_STOWED, 110);
 	} else if (controller.get_digital(C_FLIPPER_UP)) {
-		motor.move_absolute(P_FLIPPER_RAISED, 127);
+		motor.move_absolute(P_FLIPPER_RAISED, 110);
 	}
 }
 
 void Flipper::moveTo(double pos) {
-	motor.move_absolute(position, 127);
+	motor.move_absolute(position, 120);
 }

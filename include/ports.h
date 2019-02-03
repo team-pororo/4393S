@@ -9,7 +9,7 @@
 
 #define EN_INTAKE true
 
-#define EN_VIS_FRONT false
+#define EN_VIS_FRONT true
 #define EN_VIS_REAR false
 
 
@@ -103,7 +103,7 @@
 // Remember that the angle adjustment point is behind the ball.
 #define P_PUNCHER_HIGH 0
 #define P_PUNCHER_LOW 90 // PLACEHOLDER VALUE - CHANGE THIS
-#define P_PUNCHER_ONEPUNCH 360 // rotation needed to punch ball once
+#define P_PUNCHER_ONEPUNCH 960 // rotation needed to punch ball once
 #define S_PUNCHER_ANGLE 96 // throttle to improve control
 #define S_PUNCHER_ANGLE_DROP 32 // max speed during calibration
 #define T_PUNCHER_ANGLE_TIMEOUT 2000 // calibration timeout - 2secs

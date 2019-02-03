@@ -51,6 +51,9 @@ void opcontrol() {
       puncher.handle();
   #endif
       interface.handle();
+      //if (controller.get_digital(DIGITAL_Y)) {
+      //  autonomous();
+      //}
     }
 		delay(20);
 	}

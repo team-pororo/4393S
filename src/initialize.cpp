@@ -12,9 +12,10 @@
  */
 
  // Autonomous Selection Variables
- bool redTeam = true;
+ bool redTeam = false;
  bool flagSide = true; // flag or cap side auto program
  bool autoEN = true;
+ bool platformEN = true;
 
 pros::Controller controller = pros::Controller(CONTROLLER_MASTER);
 Drivetrain drivetrain(controller);
@@ -53,19 +54,36 @@ void toggleTeam() {
 }
 
 void toggleSide() {
-	flagSide = !flagSide;
+	if (autoEN) {
+    if (flagSide) {
+      // FLAGSIDE -> CAPSIDE
+      flagSide = false;
+      autoEN = true;
+    } else {
+      // CAPSIDE -> OFF
+      autoEN = false;
+    }
+  } else {
+    // OFF -> FLAGSIDE
+    autoEN = true;
+    flagSide = true;
+  }
 }
 
 void toggleAuto() {
   autoEN = !autoEN;
 }
 
+void togglePlatform() {
+  platformEN = !platformEN;
+}
+
 void initialize() {
 	lcd::initialize();
 
-	lcd::register_btn0_cb(toggleAuto);
-	lcd::register_btn1_cb(toggleAuto);
-	lcd::register_btn2_cb(toggleAuto);
+	lcd::register_btn0_cb(toggleTeam);
+	lcd::register_btn1_cb(toggleSide);
+	lcd::register_btn2_cb(togglePlatform);
 
 	controller.clear();
 	delay(50);
@@ -85,6 +103,8 @@ void initialize() {
 #if EN_VIS_REAR
 	cap_auto.setup();
 #endif
+
+
 }
 
 /**
@@ -110,12 +130,12 @@ void disabled() {}
 void competition_initialize() {
 	lcd::initialize();
 
-	lcd::register_btn0_cb(toggleAuto);
-	lcd::register_btn1_cb(toggleAuto);
-	lcd::register_btn2_cb(toggleAuto);
+  lcd::register_btn0_cb(toggleTeam);
+	lcd::register_btn1_cb(toggleSide);
+	lcd::register_btn2_cb(togglePlatform);
+
 	while (true) {
-		lcd::print(0, "Competition Setup:");
-		lcd::print(7, "%04d", millis());
+		lcd::print(0, "Competition Setup\t\t%04d", millis());
 
 		/*switch (drivetrain.driveMode) {
 			case (TankDrive):
@@ -141,12 +161,28 @@ void competition_initialize() {
 		}*/
 
     if (autoEN) {
-      lcd::print(1, "AUTONOMOUS IS ENABLED");
-      lcd::print(2, "ROBOT WILL DRIVE TOWARD TOWERS");
+      lcd::print(1, "Autonomous ON");
     } else {
-      lcd::print(1, "AUTONOMOUS IS DISABLED");
-      lcd::print(2, "ROBOT WILL NOT DRIVE DURING AUTO");
+      lcd::print(1, "NO Autonomous");
     }
+    if (redTeam) {
+      lcd::print(2, "RED team");
+    } else {
+      lcd::print(2, "BLUE team");
+    }
+    if (flagSide) {
+      lcd::print(3, "FLAG side");
+    } else {
+      lcd::print(3, "CAP side");
+    }
+    if (platformEN) {
+      lcd::print(4, "Platform Climbing ON");
+    } else {
+      lcd::print(4, "Platform Climbing OFF");
+    }
+    lcd::print(5, "Button 1: RED or BLUE TEAM");
+    lcd::print(6, "Button 2: FLAG SIDE or CAP SIDE or DISABLED");
+    lcd::print(7, "Button 3: enable or disable PLATFORM CLIMB");
 
 		delay(20);
 	}
