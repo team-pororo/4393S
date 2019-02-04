@@ -124,4 +124,11 @@
 #define SIG_FLAG_RED_ID 0
 #define SIG_FLAG_BLUE_ID 1
 
+enum class Autotype {
+  FlagSide,
+  CapSide,
+  Skills,
+  Disabled
+}
+
 #endif

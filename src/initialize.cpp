@@ -13,9 +13,11 @@
 
  // Autonomous Selection Variables
  bool redTeam = false;
- bool flagSide = true; // flag or cap side auto program
- bool autoEN = true;
  bool platformEN = true;
+
+
+
+ Autotype autotype;
 
 pros::Controller controller = pros::Controller(CONTROLLER_MASTER);
 Drivetrain drivetrain(controller);
@@ -34,6 +36,16 @@ Flipper flipper(controller);
 Interface interface(controller);
 
 FlagAuto flag_auto(redTeam, controller, drivetrain, puncher);
+
+
+auto chassis = okapi::ChassisControllerFactory::create( {M_DRIVE_LF, M_DRIVE_LR}, {-M_DRIVE_RF, -M_DRIVE_RR}, okapi::AbstractMotor::gearset::green, {4.15_in, 13.75_in});
+
+auto profiler = okapi::AsyncControllerFactory::motionProfile(
+  1.0, // max 1 m/s
+  2.0, // max 2 m/s/s
+  10.0, // max 10 m/s/s/s
+  chassis
+);
 
 void toggleDrive() {
 	if (drivetrain.driveMode == TankDrive) {
@@ -54,24 +66,20 @@ void toggleTeam() {
 }
 
 void toggleSide() {
-	if (autoEN) {
-    if (flagSide) {
-      // FLAGSIDE -> CAPSIDE
-      flagSide = false;
-      autoEN = true;
-    } else {
-      // CAPSIDE -> OFF
-      autoEN = false;
-    }
-  } else {
-    // OFF -> FLAGSIDE
-    autoEN = true;
-    flagSide = true;
+	switch (autotype) {
+    case Autotype::FlagSide:
+      autotype = Autotype::CapSide;
+      return;
+    case Autotype::CapSide:
+      autotype = Autotype::Skills;
+      return;
+    case Autotype::Skills:
+      autotype = Autotype::Disabled;
+      return;
+    case Autotype::Disabled:
+      autotype = Autotype::Flagside;
+      return;
   }
-}
-
-void toggleAuto() {
-  autoEN = !autoEN;
 }
 
 void togglePlatform() {

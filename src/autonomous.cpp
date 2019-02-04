@@ -5,6 +5,8 @@
 
 using namespace okapi::literals;
 
+
+
 extern Intake intake;
 extern Puncher puncher;
 extern Arm arm;
@@ -16,8 +18,10 @@ extern bool redTeam;
 extern bool flagSide;
 extern bool autoEN;
 extern bool platformEN;
+extern Autotype autotype;
 
-auto chassis = okapi::ChassisControllerFactory::create( {M_DRIVE_LF, M_DRIVE_LR}, {-M_DRIVE_RF, -M_DRIVE_RR}, okapi::AbstractMotor::gearset::green, {4.15_in, 13.75_in});
+extern okapi::ChassisControllerIntegrated chassis;
+extern okapi::AsyncMotionProfileController profiler;
 
 
 /**
@@ -32,99 +36,161 @@ auto chassis = okapi::ChassisControllerFactory::create( {M_DRIVE_LF, M_DRIVE_LR}
  * from where it left off.
  */
 
-void flagAuto(bool redTeam, bool platformEN) {
-  // SCORE HIGH FLAG
-  chassis.setMaxVelocity(180);
-  drivetrain.setBrakeMode(MOTOR_BRAKE_BRAKE);
-  lcd::print(1, "Turn to high flag");
-  if (redTeam) { // turn very slightly (5-10 deg.) to point at flag.
-    drivetrain.l_f_motor.move_relative(45, 200);
-    drivetrain.l_r_motor.move_relative(45, 200);
+void calibrate(bool intakeSide) {
+  // Run the robot into the wall until the bumper switches activate.
+}
+
+void grabAndScore(Autotype autotype) {
+  // Starting from the starting square, grab the ball from under the cap.
+  calibrate(false); // back into wall
+  // TURN ON INTAKE
+  // RETRACT PUNCHER
+  if (autotype == Autotype::Skills) {
+    // DRIVE FORWARD 4'
   } else {
-    drivetrain.r_f_motor.move_relative(45, 200);
-    drivetrain.r_r_motor.move_relative(45, 200);
+    // DRIVE FORWARD 2'
+    // SET SPEED TO SLOW
+    // DRIVE FORWARD 1'
+    // SET SPEED TO FAST
   }
-  delay(500);
-  lcd::print(1, "Punch High Flag");
-  puncher.punchOnce();
-  delay(1000);
-  lcd::print(1, "Turn to face low flag");
-  if (redTeam) { // turn back to starting pos
-    drivetrain.l_f_motor.move_relative(-60, 200);
-    drivetrain.l_r_motor.move_relative(-60, 200);
-  } else {
-    drivetrain.r_f_motor.move_relative(-60, 200);
-    drivetrain.r_r_motor.move_relative(-60, 200);
-  }
-  delay(500);
-  drivetrain.setBrakeMode(MOTOR_BRAKE_COAST);
+  // RUN INTAKE FOR XX ROTATIONS ASYNCHRONOUSLY
+}
+
+void flagAuto(bool redTeam, Autotype autotype) {
+  // Main flag routine
+  lcd::print(1, "Scoring High Flag");
+  // SHOOT BALL
 
 
-  // SCORE LOW FLAG
-  lcd::print(1, "Drive to low flag");
-  chassis.moveDistance(43_in);
-  lcd::print(1, "Back from low flag");
-  chassis.moveDistance(-8_in);
-
-  // FLIP CAP
-  lcd::print(1, "Turn to cap");
+  lcd::print(1, "Grabbing ball and scoring cap");
   if (redTeam) {
-    chassis.turnAngle(-30_deg);
+    // TURN 90deg
   } else {
-    chassis.turnAngle(30_deg);
+    // TURN -90deg
   }
-  lcd::print(1, "Flipper down");
-  flipper.motor.move_absolute(P_FLIPPER_RAISED, 200);
-  chassis.moveDistance(-10_in);
-  if (redTeam) {
-    chassis.turnAngle(-60_deg);
-  } else {
-    chassis.turnAngle(60_deg);
-  }
-  chassis.setMaxVelocity(150);
-  lcd::print(1, "Go to cap");
-  chassis.moveDistance(-26.34_in);
-  delay(500);
-  chassis.moveDistance(-1_in);
-  lcd::print(1, "Flipper Up");
-  flipper.motor.move_absolute(P_FLIPPER_STOWED, 200);
-  delay(500);
-  chassis.setMaxVelocity(180);
+  grabAndScore(autotype);
 
-  // CLIMB PLATFORM
-  lcd::print(1, "Turn to platform");
-  if (redTeam) {
-    chassis.turnAngle(80_deg);
-  } else {
-    chassis.turnAngle(-80_deg);
-  }
 
-  lcd::print(1, "Go towards platform");
-  chassis.moveDistance(-24_in);
+  lcd::print(1, "Scoring Low Flag");
+  if (redTeam) {
+    // TURN -90deg
+  } else {
+    // TURN 90deg
+  }
+  if (redTeam) {
+    // PATH F1R
+  } else {
+    // PATH F1B
+  }
+  calibrate(true); // forward into wall
+
+
+  lcd::print(1, "Flipping cap");
+  // FLIPPER DOWN
+  if (redTeam) {
+    // PATH F2R
+  } else {
+    // PATH F2B
+  }
+  // FLIPPER UP
+
+
+  lcd::print(1, "Scoring Middle Flag");
+  if (redTeam) {
+    // PATH F3R
+  } else {
+    // PATH F3B
+  }
+  calibrate(false); // back into wall
+  // FORWARD 6"
+  if (redTeam) {
+    // TURN -90deg
+  } else {
+    // TURN 90deg
+  }
+  // SHOOT BALL
+}
+
+void capAuto(bool readTeam, Autotype autotype, bool platformEN) {
+  calibrate(false);
+  lcd::print(1, "Grabbing ball and scoring cap");
+  grabAndScore(autotype);
+
+  lcd::print(1, "Flipping cap");
+  // FLIPPER DOWN
+  if (redTeam) {
+    // PATH C1R
+  } else {
+    // PATH C1B
+  }
+  // FLIPPER UP
 
   if (!platformEN) {
-    // This leaves Jacob *almost* on the platform, ready to go intake balls.
     return;
   }
 
-  lcd::print(1, "Climb platform");
-  chassis.moveDistance(-36_in);
-  lcd::print(1, "Done!");
-  // This leaves Jacob on the platform, with the intake facing towards the flags.
+  lcd::print(1, "Climbing Platform");
+  if (redTeam) {
+    // PATH C2R
+  } else {
+    // PATH C2B
+  }
+  if (autotype == Autotype::Skills) {
+    // REVERSE 6'
+  } else {
+    // REVERSE 4'
+  }
 }
 
-void capAuto(bool redTeam, bool platformEN) {
-  lcd::print(1, "This doesn't exist yet, sorry.");
-};
+void climbPlatformAfterFlagside(bool redTeam) {
+  lcd::print(1, "Climbing platform");
 
-void autonomous() {
-  if (autoEN) {
-    drivetrain.setBrakeMode(MOTOR_BRAKE_BRAKE);
-    if (flagSide) {
-      flagAuto(redTeam, platformEN);
-    } else {
-      capAuto(redTeam, platformEN);
+  // REVERSE 2'
+  if (redTeam) {
+    // TURN -90deg
+  } else {
+    // TURN 90deg
+  }
+
+  calibrate(true);
+  // REVERSE 4'
+}
+
+void gotoCapsideAfterFlagside(bool redTeam) {
+  // REVERSE 6'
+  if (redTeam) {
+    // TURN 90deg
+  } else {
+    // TURN -90deg
+  }
+}
+
+void autonomousRun(bool redTeam, Autotype autotype, bool platformEN) {
+
+  if (autotype == Autotype::FlagSide || autotype == Autotype::Skills) {
+    // Initial flag-side autonomous / First part of skills
+    flagAuto(redTeam, autotype);
+
+
+    if (autotype == Autotype::FlagSide && platformEN) {
+      // Climb the platform - back up in line first
+      // Don't do this during skills - we still need to do some capside!
+
+      climbPlatformAfterFlagside(redTeam);
     }
 
+    if (autotype == Autotype::Skills) {
+      // Go over to start the capside auto.
+      gotoCapsideAfterFlagside(redTeam);
+    }
   }
+
+  if (autotype == Autotype::CapSide || autotype == Autotype::Skills) {
+    // Initial cap-side autonomous / Second part of skills
+    capAuto(redTeam, autotype, platformEN);
+  }
+}
+
+void autonomous() {
+  autonomousRun(redTeam, autotype, platformEN);
 }

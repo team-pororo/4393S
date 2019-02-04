@@ -5,12 +5,6 @@ CEXTS:=c
 ASMEXTS:=s S
 CXXEXTS:=cpp c++ cc
 
-# Added by Wesley Chalmers - On Ubuntu 18.04, the g++ arm binary is only 6.3.0
-# but okapi requires >=7.3.0 functionality. Download the ARM toolchain directly
-# from https://developer.arm.com/open-source/gnu-toolchain/gnu-rm/downloads
-# and put the path here:
-#override CXX:=/home/wesley/gcc-arm-none-eabi/bin/arm-none-eabi-g++
-
 # probably shouldn't modify these, but you may need them below
 ROOT=.
 FWDIR:=$(ROOT)/firmware
