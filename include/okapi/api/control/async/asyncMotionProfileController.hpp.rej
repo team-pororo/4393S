@@ -1,0 +1,14 @@
+--- asyncMotionProfileController.hpp
++++ asyncMotionProfileController.hpp
+@@ -116,8 +117,10 @@ class AsyncMotionProfileController : public AsyncPositionController<std::string,
+    *
+    * @param iwaypoints The waypoints to hit on the path.
+    * @param ibackwards Whether to follow the profile backwards.
++   * @param imirrored Whether to follow the profile mirrored.
+    */
+-  void moveTo(std::initializer_list<Point> iwaypoints, bool ibackwards = false);
++  void
++  moveTo(std::initializer_list<Point> iwaypoints, bool ibackwards = false, bool imirrored = false);
+ 
+   /**
+    * Returns the last error of the controller. This implementation always returns zero since the

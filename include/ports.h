@@ -129,6 +129,6 @@ enum class Autotype {
   CapSide,
   Skills,
   Disabled
-}
+};
 
 #endif

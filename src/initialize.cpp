@@ -4,6 +4,7 @@
 #include "functions.h"
 #include "interface.h"
 #include "autopilot.h"
+#include "okapi/api.hpp"
 /**
  * Runs initialization code. This occurs as soon as the program is started.
  *
@@ -77,7 +78,7 @@ void toggleSide() {
       autotype = Autotype::Disabled;
       return;
     case Autotype::Disabled:
-      autotype = Autotype::Flagside;
+      autotype = Autotype::FlagSide;
       return;
   }
 }
@@ -112,6 +113,66 @@ void initialize() {
 	cap_auto.setup();
 #endif
 
+  profiler.generatePath(
+    {okapi::Point{3_ft, 1_ft, 90_deg},
+    okapi::Point{5_ft, 5_ft, 0_deg}},
+    "F1R"
+  );
+
+  profiler.generatePath( // FOLLOW IT BACKWARDS
+    {okapi::Point{3_ft, 4_ft, 0_deg},
+    okapi::Point{5_ft, 5_ft, 0_deg}},
+    "F2R"
+  );
+
+  profiler.generatePath( // FOLLOW IT BACKWARDS
+    {okapi::Point{1_ft, 3_ft, 90_deg},
+    okapi::Point{3_ft, 4_ft, 0_deg}},
+    "F3R"
+  );
+
+  profiler.generatePath( // FOLLOW IT BACKWARDS
+    {okapi::Point{4_ft, -1_ft, -90_deg},
+    okapi::Point{4_ft, 1_ft, 90_deg}},
+    "C1R"
+  );
+
+  profiler.generatePath(
+    {okapi::Point{4_ft, -1_ft, -90_deg},
+    okapi::Point{1_ft, 3_ft, -90_deg}},
+    "C2R"
+  );
+
+
+  profiler.generatePath(
+    {okapi::Point{-3_ft, 1_ft, 90_deg},
+    okapi::Point{-5_ft, 5_ft, 0_deg}},
+    "F1B"
+  );
+
+  profiler.generatePath( // FOLLOW IT BACKWARDS
+    {okapi::Point{-3_ft, 4_ft, 0_deg},
+    okapi::Point{-5_ft, 5_ft, 0_deg}},
+    "F2B"
+  );
+
+  profiler.generatePath( // FOLLOW IT BACKWARDS
+    {okapi::Point{-1_ft, 3_ft, 90_deg},
+    okapi::Point{-3_ft, 4_ft, 0_deg}},
+    "F3B"
+  );
+
+  profiler.generatePath( // FOLLOW IT BACKWARDS
+    {okapi::Point{-4_ft, -1_ft, -90_deg},
+    okapi::Point{-4_ft, 1_ft, 90_deg}},
+    "C1B"
+  );
+
+  profiler.generatePath(
+    {okapi::Point{-4_ft, -1_ft, -90_deg},
+    okapi::Point{-1_ft, 3_ft, -90_deg}},
+    "C2B"
+  );
 
 }
 
@@ -168,20 +229,24 @@ void competition_initialize() {
 			lcd::print(4, "AIM THE PUNCHER AWAY FROM THE FLAGS");
 		}*/
 
-    if (autoEN) {
-      lcd::print(1, "Autonomous ON");
-    } else {
-      lcd::print(1, "NO Autonomous");
+    switch (autotype) {
+      case Autotype::FlagSide:
+      lcd::print(1, "FLAG SIDE auto");
+      break;
+      case Autotype::CapSide:
+      lcd::print(1, "CAP SIDE auto");
+      break;
+      case Autotype::Skills:
+      lcd::print(1, "SKILLS auto");
+      break;
+      case Autotype::Disabled:
+      lcd::print(1, "NO auto");
+      break;
     }
     if (redTeam) {
       lcd::print(2, "RED team");
     } else {
       lcd::print(2, "BLUE team");
-    }
-    if (flagSide) {
-      lcd::print(3, "FLAG side");
-    } else {
-      lcd::print(3, "CAP side");
     }
     if (platformEN) {
       lcd::print(4, "Platform Climbing ON");

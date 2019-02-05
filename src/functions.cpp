@@ -4,6 +4,11 @@
 
 using namespace pros;
 
+Intake::Intake(Controller c) : controller(c) {
+	motor.set_brake_mode(E_MOTOR_BRAKE_COAST);
+	motor.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
+}
+
 void Intake::handle() {
 
 	#if C_INTAKE_TOGGLE_MODE

@@ -11,7 +11,7 @@ public:
 	bool intakeSpinning = false;
 	Motor motor = Motor(M_INTAKE, E_MOTOR_GEARSET_18, false);
 	Controller controller;
-	Intake(Controller c): controller(c) {};
+	Intake(Controller c);
 	void handle();
 	void spin(int direction); // -1 flip cap, 0 stop, 1 flip ball
 };
