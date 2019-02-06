@@ -31,6 +31,8 @@ extern Interface interface;
 extern Flipper flipper;
 extern FlagAuto flag_auto;
 
+
+
 void opcontrol() {
   interface.timeStart = millis();
 
@@ -51,9 +53,11 @@ void opcontrol() {
       puncher.handle();
   #endif
       interface.handle();
-      //if (controller.get_digital(DIGITAL_Y)) {
-      //  autonomous();
-      //}
+      if (controller.get_digital(DIGITAL_Y)) {
+        drivetrain.calibrate(true);
+      } else if (controller.get_digital(DIGITAL_RIGHT)) {
+        drivetrain.calibrate(false);
+      }
     }
 		delay(20);
 	}

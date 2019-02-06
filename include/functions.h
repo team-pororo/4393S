@@ -19,10 +19,12 @@ public:
 class Puncher {
 public:
 	Motor motor = Motor(M_PUNCHER, E_MOTOR_GEARSET_18, false);
+	ADIButton limsw = ADIButton(SW_PUNCHER);
 	Controller controller;
 	Puncher(Controller c);
 	void handle();
 	void punchOnce(); // punch once
+	bool pullBack();
 };
 
 class Arm {

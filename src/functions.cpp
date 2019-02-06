@@ -60,7 +60,7 @@ void Puncher::handle() {
 		motor.move(-127);
 	} else {
 		//motor.move(0);
-		motor.move_absolute(motor.get_position(), 127); // hold in place
+		pullBack(); // hold in place
 	}
 }
 
@@ -72,6 +72,15 @@ void Puncher::punchOnce() {
 	}
 }
 
+bool Puncher::pullBack() {
+	if (!limsw.get_value()) {
+		motor.move(127);
+		return false;
+	} else {
+		motor.move_absolute(motor.get_position(), 127);
+		return true;
+	}
+}
 
 Arm::Arm(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);

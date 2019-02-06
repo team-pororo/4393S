@@ -67,6 +67,11 @@
 #define M_ARM 6
 #define SW_ARM 'C' // limit switch at stowed position to determine absolute pos
 
+#define SW_LF 'E'
+#define SW_RF 'F'
+#define SW_LR 'D'
+#define SW_RR 'H'
+
 // INTAKE/FLIPPER
 #define M_INTAKE 3
 

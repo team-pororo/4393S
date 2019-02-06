@@ -23,6 +23,15 @@ void Drivetrain::drive(int l, int r) {
 	r_r_motor.move(r);
 }
 
+void Drivetrain::driveRaw(int l, int r) {
+	// Low-level drive function that DOESN'T respect inverse drive.
+	l_f_motor.move(l);
+	r_f_motor.move(r);
+ 	l_r_motor.move(l);
+	r_r_motor.move(r);
+}
+
+
 void Drivetrain::drive_cheesy(int x, int y) {
 	int v = (128 - abs(x))*(y/128)+y;
 	int w = (128 - abs(y))*(x/128)+x;
@@ -123,4 +132,31 @@ void Drivetrain::handle() {
 
 
 	//lcd::print(2, line.c_str());
+}
+
+
+
+void Drivetrain::calibrate(bool intakeSide) {
+  // Run the robot into the wall until the bumper switches activate.
+  if (intakeSide) {
+    while (!lf_bumper.get_value() || !rf_bumper.get_value()) {
+      if (lf_bumper.get_value()) {
+        driveRaw(0, 127);
+      } else if (rf_bumper.get_value()) {
+        driveRaw(127, 0);
+      } else {
+        driveRaw(127, 127);
+      }
+    }
+  } else {
+    while (!lr_bumper.get_value() || !rr_bumper.get_value()) {
+      if (lr_bumper.get_value()) {
+        driveRaw(0, -127);
+      } else if (rr_bumper.get_value()) {
+        driveRaw(-127, 0);
+      } else {
+        driveRaw(-127, -127);
+      }
+    }
+  }
 }

@@ -38,14 +38,10 @@ extern okapi::AsyncMotionProfileController profiler;
  * from where it left off.
  */
 
-void calibrate(bool intakeSide) {
-  // Run the robot into the wall until the bumper switches activate.
-}
-
 void grabAndScore(Autotype autotype) {
   chassis.setMaxVelocity(200);
   // Starting from the starting square, grab the ball from under the cap.
-  calibrate(false); // back into wall
+  drivetrain.calibrate(false); // back into wall
   intake.motor.move_velocity(S_INTAKE);
   // RETRACT PUNCHER
   if (autotype == Autotype::Skills) {
@@ -76,33 +72,37 @@ void flagAuto(bool redTeam, Autotype autotype) {
 
   lcd::print(1, "Scoring Low Flag");
   if (redTeam) {
-    chassis.turnAngle(-90_deg);
-    profiler.setTarget("F1R", false);
+    chassis.turnAngle(-60_deg);
+    chassis.moveDistance(54_in);
+    chassis.turnAngle(-30_deg);
   } else {
-    chassis.turnAngle(90_deg);
-    profiler.setTarget("F1B", false);
+    chassis.turnAngle(60_deg);
+    chassis.moveDistance(54_in);
+    chassis.turnAngle(30_deg);
   }
 
-  calibrate(true); // forward into wall
+  drivetrain.calibrate(true); // forward into wall
 
 
   lcd::print(1, "Flipping cap");
   flipper.moveTo(P_FLIPPER_RAISED);
   if (redTeam) {
-    //profiler.setTarget("F2R", true);
+    profiler.setTarget("A");
   } else {
-    //profiler.setTarget("F2B", true);
+    profiler.setTarget("D");
   }
   flipper.moveTo(P_FLIPPER_STOWED);
 
 
   lcd::print(1, "Scoring Middle Flag");
   if (redTeam) {
-    //profiler.setTarget("F3R", true);
+    chassis.turnAngle(90_deg);
+    chassis.moveDistance(-24_in);
   } else {
-    //profiler.setTarget("F3B", true);
+    chassis.turnAngle(90_deg);
+    chassis.moveDistance(-24_in);
   }
-  calibrate(false); // back into wall
+  drivetrain.calibrate(false); // back into wall
   chassis.moveDistance(6_in);
   if (redTeam) {
     chassis.turnAngle(-90_deg);
@@ -113,16 +113,16 @@ void flagAuto(bool redTeam, Autotype autotype) {
 }
 
 void capAuto(bool readTeam, Autotype autotype, bool platformEN) {
-  calibrate(false);
+  drivetrain.calibrate(false);
   lcd::print(1, "Grabbing ball and scoring cap");
   grabAndScore(autotype);
 
   lcd::print(1, "Flipping cap");
   flipper.moveTo(P_FLIPPER_RAISED);
   if (redTeam) {
-    //profiler.setTarget("C1R", true);
+    profiler.setTarget("B");
   } else {
-    //profiler.setTarget("C1B", true);
+    profiler.setTarget("E");
   }
   flipper.moveTo(P_FLIPPER_STOWED);
 
@@ -131,11 +131,21 @@ void capAuto(bool readTeam, Autotype autotype, bool platformEN) {
   }
 
   lcd::print(1, "Climbing Platform");
+  chassis.moveDistance(36_in);
+  drivetrain.calibrate(true);
+  chassis.moveDistance(-6_in);
   if (redTeam) {
-    //profiler.setTarget("C2R", false);
+    chassis.turnAngle(90_deg);
   } else {
-    //profiler.setTarget("C2B", false);
+    chassis.turnAngle(-90_deg);
   }
+  chassis.moveDistance(48_in);
+  if (redTeam) {
+    chassis.turnAngle(-90_deg);
+  } else {
+    chassis.turnAngle(90_deg);
+  }
+  drivetrain.calibrate(true);
   if (autotype == Autotype::Skills) {
     chassis.moveDistance(-72_in);
   } else {
@@ -153,7 +163,7 @@ void climbPlatformAfterFlagside(bool redTeam) {
     chassis.turnAngle(90_deg);
   }
 
-  calibrate(true);
+  drivetrain.calibrate(true);
   chassis.moveDistance(-48_in);
 }
 
