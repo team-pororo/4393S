@@ -1,8 +1,9 @@
 # 4393S (Team Pororo) v5 Full Codebase
 
-This is our full codebase for our VEX robot "Xx_Dale_xX". Well commented, intelligently organized, and concise design... 
+This is our full codebase for our VEX robot "Xx_Dale_xX". Well commented, intelligently organized, and concise design...* 
 what's not to love? You can thank our designated code monkey @wesleycha for all this code. 
 
+(*Well, it *used* to be all those things. Some late nights of rushed features have thrown some of that out the window...)
 
 # Our Season So Far
 
@@ -12,10 +13,12 @@ Made it to semifinals, but then our robot fell over during the autonomous period
 Awards: Judges Award
 
 ### John-Bapst
-Not played yet.
+Rank: 4
+Awards: Tournament Champion
 
-### Leavitt Area
-Not played yet.
+### Turner
+Rank: 4
+Awards: Tournament Finalist, Judges Award
 
 ### Monmouth Academy
 Not played yet.
