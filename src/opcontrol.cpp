@@ -30,8 +30,24 @@ extern Controller controller;
 extern Interface interface;
 extern Flipper flipper;
 extern FlagAuto flag_auto;
+extern okapi::ChassisControllerIntegrated chassis;
 
-
+void grabAndScore(Autotype autotype) {
+  chassis.setMaxVelocity(180);
+  // Starting from the starting square, grab the ball from under the cap.
+  drivetrain.calibrate(false); // back into wall
+  intake.motor.move_velocity(S_INTAKE);
+  // RETRACT PUNCHER
+  if (autotype == Autotype::Skills) {
+    chassis.moveDistance(54_in);
+  } else {
+    chassis.moveDistance(36_in);
+    chassis.setMaxVelocity(100);
+    chassis.moveDistance(6_in);
+    chassis.setMaxVelocity(180);
+  }
+  intake.motor.move_relative(7200, S_INTAKE); // Keep turning until the ball is at the top
+}
 
 void opcontrol() {
   interface.timeStart = millis();
@@ -54,9 +70,9 @@ void opcontrol() {
   #endif
       interface.handle();
       if (controller.get_digital(DIGITAL_Y)) {
-        drivetrain.calibrate(true);
+        grabAndScore(Autotype::FlagSide);
       } else if (controller.get_digital(DIGITAL_RIGHT)) {
-        drivetrain.calibrate(false);
+        grabAndScore(Autotype::Skills);
       }
     }
 		delay(20);

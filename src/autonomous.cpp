@@ -37,7 +37,7 @@ extern okapi::AsyncMotionProfileController profiler;
  * will be stopped. Re-enabling the robot will restart the task, not re-start it
  * from where it left off.
  */
-
+/*
 void grabAndScore(Autotype autotype) {
   chassis.setMaxVelocity(200);
   // Starting from the starting square, grab the ball from under the cap.
@@ -53,8 +53,8 @@ void grabAndScore(Autotype autotype) {
     chassis.setMaxVelocity(200);
   }
   intake.motor.move_relative(3600, S_INTAKE); // Keep turning until the ball is at the top
-}
-
+}*/
+/*
 void flagAuto(bool redTeam, Autotype autotype) {
   // Main flag routine
   lcd::print(1, "Scoring High Flag");
@@ -67,7 +67,8 @@ void flagAuto(bool redTeam, Autotype autotype) {
   } else {
     chassis.turnAngle(-90_deg);
   }
-  grabAndScore(autotype);
+  //grabAndScore(autotype);
+  return;
 
 
   lcd::print(1, "Scoring Low Flag");
@@ -115,7 +116,7 @@ void flagAuto(bool redTeam, Autotype autotype) {
 void capAuto(bool readTeam, Autotype autotype, bool platformEN) {
   drivetrain.calibrate(false);
   lcd::print(1, "Grabbing ball and scoring cap");
-  grabAndScore(autotype);
+  //grabAndScore(autotype);
 
   lcd::print(1, "Flipping cap");
   flipper.moveTo(P_FLIPPER_RAISED);
@@ -200,8 +201,75 @@ void autonomousRun(bool redTeam, Autotype autotype, bool platformEN) {
     // Initial cap-side autonomous / Second part of skills
     capAuto(redTeam, autotype, platformEN);
   }
-}
+}*/
 
 void autonomous() {
-  autonomousRun(redTeam, autotype, platformEN);
+  if (autotype == Autotype::FlagSide || autotype == Autotype::Skills) {
+    lcd::print(1, "Scoring high flag");
+    puncher.punchOnce();
+    lcd::print(1, "Retreiving Ball");
+    if (redTeam) {
+      chassis.turnAngle(90_deg);
+    } else {
+      chassis.turnAngle(-90_deg);
+    }
+    intake.motor.move_relative(7200, 50);
+    chassis.moveDistanceAsync(48_in);
+    while (!puncher.pullBack()) {delay(20);};
+    chassis.waitUntilSettled();
+    lcd::print(1, "Flipping Cap");
+    chassis.moveDistance(-24_in);
+    flipper.moveTo(P_FLIPPER_RAISED);
+    if (redTeam) {
+      chassis.turnAngle(90_deg);
+    } else {
+      chassis.turnAngle(-90_deg);
+    }
+    chassis.moveDistance(-24_in);
+    flipper.moveTo(P_FLIPPER_STOWED);
+    lcd::print(1, "Shooting Middle Flag");
+    if (redTeam) {
+      chassis.turnAngle(90_deg);
+    } else {
+      chassis.turnAngle(-90_deg);
+    }
+    chassis.moveDistance(24_in);
+    if (redTeam) {
+      chassis.turnAngle(90_deg);
+    } else {
+      chassis.turnAngle(-90_deg);
+    }
+    puncher.punchOnce();
+    lcd::print(1, "Climbing Platform");
+    chassis.moveDistance(-48_in);
+    if (redTeam) {
+      chassis.turnAngle(-90_deg);
+    } else {
+      chassis.turnAngle(90_deg);
+    }
+    drivetrain.calibrate(true);
+    if (platformEN) {
+      chassis.moveDistance(36_in);
+      if (autotype == Autotype::Skills) {
+        chassis.moveDistance(36_in);
+      }
+    }
+  } else if (autotype == Autotype::CapSide) {
+    intake.motor.move_relative(7200, 50);
+    chassis.moveDistanceAsync(48_in);
+    while (!puncher.pullBack()) {delay(20);};
+    chassis.waitUntilSettled();
+    if (redTeam) {
+      chassis.turnAngle(-90_deg);
+    } else {
+      chassis.turnAngle(90_deg);
+    }
+    flipper.moveTo(P_FLIPPER_RAISED);
+    chassis.moveDistance(-24_in);
+    flipper.moveTo(P_FLIPPER_STOWED);
+    if (platformEN) {
+      chassis.moveDistance(48_in);
+    }
+  }
+
 }

@@ -119,11 +119,11 @@ void initialize() {
     "F1R"
   );*/
 
-  profiler.generatePath( // FOLLOW IT BACKWARDS
+  /*profiler.generatePath( // FOLLOW IT BACKWARDS
     {okapi::Point{3_ft, 4_ft, 0_deg},
     okapi::Point{5_ft, 5_ft, 0_deg}},
     "A" // F2R
-  );
+  );*/
 
   /*profiler.generatePath( // FOLLOW IT BACKWARDS
     {okapi::Point{1_ft, 3_ft, 90_deg},
@@ -131,11 +131,11 @@ void initialize() {
     "F3R"
   );*/
 
-  profiler.generatePath( // FOLLOW IT BACKWARDS
+  /*profiler.generatePath( // FOLLOW IT BACKWARDS
     {okapi::Point{4_ft, -1_ft, -90_deg},
     okapi::Point{4_ft, 1_ft, 90_deg}},
     "B" // C1R
-  );
+  );*/
 
   /*profiler.generatePath(
     {okapi::Point{4_ft, -1_ft, -90_deg},
@@ -150,11 +150,11 @@ void initialize() {
     "F1B"
   );*/
 
-  profiler.generatePath( // FOLLOW IT BACKWARDS
+  /*profiler.generatePath( // FOLLOW IT BACKWARDS
     {okapi::Point{-3_ft, 4_ft, 0_deg},
     okapi::Point{-5_ft, 5_ft, 0_deg}},
     "D" // F2B
-  );
+  );*/
 
   /*profiler.generatePath( // FOLLOW IT BACKWARDS
     {okapi::Point{-1_ft, 3_ft, 90_deg},
@@ -162,11 +162,11 @@ void initialize() {
     "F3B"
   );*/
 
-  profiler.generatePath( // FOLLOW IT BACKWARDS
+  /*profiler.generatePath( // FOLLOW IT BACKWARDS
     {okapi::Point{-4_ft, -1_ft, -90_deg},
     okapi::Point{-4_ft, 1_ft, 90_deg}},
     "E" // C1B
-  );
+  );*/
 
   /*profiler.generatePath(
     {okapi::Point{-4_ft, -1_ft, -90_deg},
