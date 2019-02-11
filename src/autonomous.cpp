@@ -206,7 +206,10 @@ void autonomousRun(bool redTeam, Autotype autotype, bool platformEN) {
 void autonomous() {
   if (autotype == Autotype::FlagSide || autotype == Autotype::Skills) {
     lcd::print(1, "Scoring high flag");
+    while (!puncher.pullBack()) {delay(20);};
     puncher.punchOnce();
+    delay(500);
+    while (!puncher.pullBack()) {delay(20);};
     lcd::print(1, "Retreiving Ball");
     if (redTeam) {
       chassis.turnAngle(90_deg);
@@ -215,7 +218,6 @@ void autonomous() {
     }
     intake.motor.move_relative(7200, 50);
     chassis.moveDistance(36_in);
-    while (!puncher.pullBack()) {delay(20);};
     lcd::print(1, "Flipping Cap");
     flipper.motor.move_absolute(P_FLIPPER_RAISED, 110);
     chassis.moveDistance(-8_in);
@@ -240,7 +242,7 @@ void autonomous() {
     } else {
       chassis.turnAngle(-90_deg);
     }
-    chassis.moveDistance(18_in);
+    chassis.moveDistance(16_in);
     if (redTeam) {
       chassis.turnAngle(90_deg);
     } else {
@@ -248,7 +250,9 @@ void autonomous() {
     }
     chassis.moveDistance(-8_in);
     puncher.punchOnce();
-
+    delay(500);
+    while (!puncher.pullBack()) {delay(20);};
+    return;
     lcd::print(1, "Climbing Platform");
     chassis.moveDistance(-39_in);
     if (redTeam) {

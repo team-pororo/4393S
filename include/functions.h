@@ -22,6 +22,7 @@ public:
 	Motor motor2 = Motor(M_PUNCHER_2, E_MOTOR_GEARSET_18, false);
 	ADIButton limsw = ADIButton(SW_PUNCHER);
 	int lastFire = 0;
+	int lastPullback = 0;
 	Controller controller;
 	Puncher(Controller c);
 	void handle();

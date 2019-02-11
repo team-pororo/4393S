@@ -70,7 +70,7 @@
 
 #define SW_LF 'E'
 #define SW_RF 'F'
-#define SW_LR 'D'
+#define SW_LR 'G'
 #define SW_RR 'H'
 
 // INTAKE/FLIPPER

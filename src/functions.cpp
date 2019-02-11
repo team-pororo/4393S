@@ -56,9 +56,7 @@ Puncher::Puncher(Controller c): controller(c) {
 
 void Puncher::handle() {
 	if (controller.get_digital(C_PUNCHER_FIRE)) {
-		motor.move(127);
-		motor2.move(127);
-		lastFire = millis();
+		punchOnce();
 	// Puncher reverse was removed due to being mostly useless.
 	} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
 		motor.move(-127);
@@ -71,16 +69,18 @@ void Puncher::handle() {
 }
 
 void Puncher::punchOnce() {
-	int tare = motor.get_position();
-	motor.move_relative(P_PUNCHER_ONEPUNCH, 127);
-	motor2.move_relative(P_PUNCHER_ONEPUNCH, 127);
-	while (motor.get_position() - tare < P_PUNCHER_ONEPUNCH - 5) {
-		delay(2);
+	lastFire = millis();
+	while (limsw.get_value()) {// && millis() - lastPullback < 1000) {
+		motor.move(127);
+		motor2.move(127);
 	}
+	motor.move_absolute(motor.get_position(), 127);
+	motor2.move_absolute(motor2.get_position(), 127);
 }
 
 bool Puncher::pullBack() {
-	if (!limsw.get_value() && millis() - lastFire > 200 && millis() - lastFire > 3000) {
+	lastPullback = millis();
+	if (!limsw.get_value() && millis() - lastFire > 200 && millis() - lastFire < 1500) {
 		motor.move(127);
 		motor2.move(127);
 		return false;
