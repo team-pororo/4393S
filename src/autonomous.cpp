@@ -214,34 +214,43 @@ void autonomous() {
       chassis.turnAngle(-90_deg);
     }
     intake.motor.move_relative(7200, 50);
-    chassis.moveDistanceAsync(48_in);
+    chassis.moveDistance(36_in);
     while (!puncher.pullBack()) {delay(20);};
-    chassis.waitUntilSettled();
     lcd::print(1, "Flipping Cap");
-    chassis.moveDistance(-24_in);
-    flipper.moveTo(P_FLIPPER_RAISED);
+    flipper.motor.move_absolute(P_FLIPPER_RAISED, 110);
+    chassis.moveDistance(-8_in);
     if (redTeam) {
-      chassis.turnAngle(90_deg);
+      chassis.turnAngle(30_deg);
     } else {
-      chassis.turnAngle(-90_deg);
+      chassis.turnAngle(-30_deg);
+    }
+    chassis.moveDistance(-8_in);
+    if (redTeam) {
+      chassis.turnAngle(60_deg);
+    } else {
+      chassis.turnAngle(-60_deg);
     }
     chassis.moveDistance(-24_in);
-    flipper.moveTo(P_FLIPPER_STOWED);
+    intake.motor.move(0);
+    flipper.motor.move_absolute(P_FLIPPER_STOWED, 110);
+    delay(500);
     lcd::print(1, "Shooting Middle Flag");
     if (redTeam) {
       chassis.turnAngle(90_deg);
     } else {
       chassis.turnAngle(-90_deg);
     }
-    chassis.moveDistance(24_in);
+    chassis.moveDistance(18_in);
     if (redTeam) {
       chassis.turnAngle(90_deg);
     } else {
       chassis.turnAngle(-90_deg);
     }
+    chassis.moveDistance(-8_in);
     puncher.punchOnce();
+
     lcd::print(1, "Climbing Platform");
-    chassis.moveDistance(-48_in);
+    chassis.moveDistance(-39_in);
     if (redTeam) {
       chassis.turnAngle(-90_deg);
     } else {
@@ -249,9 +258,9 @@ void autonomous() {
     }
     drivetrain.calibrate(true);
     if (platformEN) {
-      chassis.moveDistance(36_in);
+      chassis.moveDistance(-66_in);
       if (autotype == Autotype::Skills) {
-        chassis.moveDistance(36_in);
+        chassis.moveDistance(-40_in);
       }
     }
   } else if (autotype == Autotype::CapSide) {

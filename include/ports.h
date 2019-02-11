@@ -58,6 +58,7 @@
 // PUNCHER
 #define M_PUNCHER 4
 #define SW_PUNCHER 'A'
+#define M_PUNCHER_2 6
 
 // FLIPPER
 #define M_FLIPPER 5

@@ -69,11 +69,11 @@ void opcontrol() {
       puncher.handle();
   #endif
       interface.handle();
-      if (controller.get_digital(DIGITAL_Y)) {
-        grabAndScore(Autotype::FlagSide);
-      } else if (controller.get_digital(DIGITAL_RIGHT)) {
-        grabAndScore(Autotype::Skills);
-      }
+      //if (controller.get_digital(DIGITAL_Y)) {
+      //  grabAndScore(Autotype::FlagSide);
+      //} else if (controller.get_digital(DIGITAL_RIGHT)) {
+      //  grabAndScore(Autotype::Skills);
+      //}
     }
 		delay(20);
 	}

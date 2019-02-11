@@ -13,7 +13,7 @@
  */
 
  // Autonomous Selection Variables
- bool redTeam = false;
+ bool redTeam = true;
  bool platformEN = true;
 
 
@@ -39,7 +39,7 @@ Interface interface(controller);
 FlagAuto flag_auto(redTeam, controller, drivetrain, puncher);
 
 
-auto chassis = okapi::ChassisControllerFactory::create( {M_DRIVE_LF, M_DRIVE_LR}, {-M_DRIVE_RF, -M_DRIVE_RR}, okapi::AbstractMotor::gearset::green, {4.15_in, 13.75_in});
+auto chassis = okapi::ChassisControllerFactory::create( {M_DRIVE_LF, M_DRIVE_LR}, {-M_DRIVE_RF, -M_DRIVE_RR}, okapi::AbstractMotor::gearset::green, {4.1_in, 13.75_in});
 
 auto profiler = okapi::AsyncControllerFactory::motionProfile(
   1.0, // max 1 m/s

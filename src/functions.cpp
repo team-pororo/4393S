@@ -50,16 +50,22 @@ void Intake::spin(int direction) {
 Puncher::Puncher(Controller c): controller(c) {
 	motor.set_brake_mode(E_MOTOR_BRAKE_HOLD);
 	motor.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
+	motor2.set_brake_mode(E_MOTOR_BRAKE_HOLD);
+	motor2.set_encoder_units(E_MOTOR_ENCODER_DEGREES);
 }
 
 void Puncher::handle() {
 	if (controller.get_digital(C_PUNCHER_FIRE)) {
 		motor.move(127);
+		motor2.move(127);
+		lastFire = millis();
 	// Puncher reverse was removed due to being mostly useless.
 	} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
 		motor.move(-127);
+		motor2.move(-127);
 	} else {
 		//motor.move(0);
+		//motor2.move(0);
 		pullBack(); // hold in place
 	}
 }
@@ -67,17 +73,20 @@ void Puncher::handle() {
 void Puncher::punchOnce() {
 	int tare = motor.get_position();
 	motor.move_relative(P_PUNCHER_ONEPUNCH, 127);
+	motor2.move_relative(P_PUNCHER_ONEPUNCH, 127);
 	while (motor.get_position() - tare < P_PUNCHER_ONEPUNCH - 5) {
 		delay(2);
 	}
 }
 
 bool Puncher::pullBack() {
-	if (!limsw.get_value()) {
+	if (!limsw.get_value() && millis() - lastFire > 200 && millis() - lastFire > 3000) {
 		motor.move(127);
+		motor2.move(127);
 		return false;
 	} else {
 		motor.move_absolute(motor.get_position(), 127);
+		motor2.move_absolute(motor2.get_position(), 127);
 		return true;
 	}
 }

@@ -138,8 +138,9 @@ void Drivetrain::handle() {
 
 void Drivetrain::calibrate(bool intakeSide) {
   // Run the robot into the wall until the bumper switches activate.
+	int start = millis();
   if (intakeSide) {
-    while (!lf_bumper.get_value() || !rf_bumper.get_value()) {
+    while ((!lf_bumper.get_value() || !rf_bumper.get_value()) && millis() - start < 500) {
       if (lf_bumper.get_value()) {
         driveRaw(0, 127);
       } else if (rf_bumper.get_value()) {
@@ -149,7 +150,7 @@ void Drivetrain::calibrate(bool intakeSide) {
       }
     }
   } else {
-    while (!lr_bumper.get_value() || !rr_bumper.get_value()) {
+    while ((!lr_bumper.get_value() || !rr_bumper.get_value()) && millis() - start < 500) {
       if (lr_bumper.get_value()) {
         driveRaw(0, -127);
       } else if (rr_bumper.get_value()) {
