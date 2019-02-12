@@ -55,40 +55,104 @@ Puncher::Puncher(Controller c): controller(c) {
 }
 
 void Puncher::handle() {
-	if (controller.get_digital(C_PUNCHER_FIRE)) {
-		punchOnce();
-	// Puncher reverse was removed due to being mostly useless.
-	} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
-		motor.move(-127);
-		motor2.move(-127);
-	} else {
-		//motor.move(0);
-		//motor2.move(0);
-		pullBack(); // hold in place
+	// The puncher behaves as a finite state machine
+	// Normal operation: Ready -> Punch -> PunchWait -> PullBack -> Ready
+	// Maintainance: Ready -> Detension -> Idle -> PullBack -> Ready
+	// After changing the state, you *must* call handle() to change the motor state
+	switch (state) {
+		case PuncherState::PullBack: {
+			if (limsw.get_value() || millis() - lastUpdate > 1500) {
+				state = PuncherState::Ready;
+				lastUpdate = millis();
+			} else {
+				motor.move(127);
+				motor2.move(127);
+			}
+		}
+		break;
+
+		case PuncherState::Ready: {
+			// Hold In Place
+			motor.move_absolute(motor.get_position(), 127);
+			motor2.move_absolute(motor2.get_position(), 127);
+
+			if (controller.get_digital(C_PUNCHER_PUNCH)) {
+				state = PuncherState::Punch;
+				lastUpdate = millis();
+			} else if (controller.get_digital(C_PUNCHER_REVERSE)) {
+				state = PuncherState::Detension;
+				lastUpdate = millis();
+			}
+		}
+		break;
+
+		case PuncherState::Punch: {
+			if (!limsw.get_value() || millis() - lastUpdate > 1500) {
+				state = PuncherState::PunchWait;
+				lastUpdate = millis();
+			} else {
+				motor.move(127);
+				motor2.move(127);
+			}
+		}
+		break;
+
+		case PuncherState::PunchWait: {
+			if (millis() - lastUpdate > 100) {
+				state = PuncherState::PullBack;
+				lastUpdate = millis();
+			}
+		}
+		break;
+
+		case PuncherState::Detension: {
+			if (controller.get_digital(C_PUNCHER_REVERSE)) {
+				motor.move(-127);
+				motor2.move(-127);
+			} else {
+				state = PuncherState::Idle;
+				lastUpdate = millis();
+			}
+		}
+		break;
+
+		case PuncherState::Idle: {
+			if (controller.get_digital(C_PUNCHER_REVERSE)) {
+				state = PuncherState::Detension;
+				lastUpdate = millis();
+			} else if (controller.get_digital(C_PUNCHER_PUNCH)) {
+				state = PuncherState::PullBack;
+				lastUpdate = millis();
+			} else {
+				// Hold In Place
+				motor.move_absolute(motor.get_position(), 127);
+				motor2.move_absolute(motor2.get_position(), 127);
+			}
+		}
+		break;
 	}
 }
 
-void Puncher::punchOnce() {
-	lastFire = millis();
-	while (limsw.get_value()) {// && millis() - lastPullback < 1000) {
-		motor.move(127);
-		motor2.move(127);
-	}
-	motor.move_absolute(motor.get_position(), 127);
-	motor2.move_absolute(motor2.get_position(), 127);
+void Puncher::punch() {
+	lastUpdate = millis();
+	state = PuncherState::Punch;
+	handle();
 }
 
-bool Puncher::pullBack() {
-	lastPullback = millis();
-	if (!limsw.get_value() && millis() - lastFire > 200 && millis() - lastFire < 1500) {
-		motor.move(127);
-		motor2.move(127);
-		return false;
-	} else {
-		motor.move_absolute(motor.get_position(), 127);
-		motor2.move_absolute(motor2.get_position(), 127);
-		return true;
+void Puncher::waitUntilSettled() {
+	while (state != PuncherState::Ready) {
+		handle();
+		delay(20);
 	}
+	handle(); // Handle it once to engage autobrake once ready
+}
+
+void Puncher::waitUntilShot() {
+	while (state != PuncherState::PullBack && state != PuncherState::Ready) {
+		handle();
+		delay(20);
+	}
+	handle(); // Handle it once to engage autobrake once ready
 }
 
 Arm::Arm(Controller c): controller(c) {

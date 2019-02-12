@@ -206,21 +206,31 @@ void autonomousRun(bool redTeam, Autotype autotype, bool platformEN) {
 void autonomous() {
   if (autotype == Autotype::FlagSide || autotype == Autotype::Skills) {
     lcd::print(1, "Scoring high flag");
-    while (!puncher.pullBack()) {delay(20);};
-    puncher.punchOnce();
-    delay(500);
-    while (!puncher.pullBack()) {delay(20);};
-    lcd::print(1, "Retreiving Ball");
+    puncher.waitUntilSettled();
+    puncher.punch();
+    puncher.waitUntilShot();
+
     if (redTeam) {
-      chassis.turnAngle(90_deg);
+      chassis.turnAngleAsync(90_deg);
     } else {
-      chassis.turnAngle(-90_deg);
+      chassis.turnAngleAsync(-90_deg);
     }
+
+    puncher.waitUntilSettled();
+    chassis.waitUntilSettled();
+
+    lcd::print(1, "Retreiving Ball");
     intake.motor.move_relative(7200, 50);
     chassis.moveDistance(36_in);
     lcd::print(1, "Flipping Cap");
     flipper.motor.move_absolute(P_FLIPPER_RAISED, 110);
-    chassis.moveDistance(-8_in);
+    if (redTeam) {
+      profiler.setTarget("R", true);
+    } else {
+      profiler.setTarget("B", true);
+    }
+    profiler.waitUntilSettled();
+    /*chassis.moveDistance(-8_in);
     if (redTeam) {
       chassis.turnAngle(30_deg);
     } else {
@@ -232,7 +242,7 @@ void autonomous() {
     } else {
       chassis.turnAngle(-60_deg);
     }
-    chassis.moveDistance(-24_in);
+    chassis.moveDistance(-24_in);*/
     intake.motor.move(0);
     flipper.motor.move_absolute(P_FLIPPER_STOWED, 110);
     delay(500);
@@ -249,9 +259,8 @@ void autonomous() {
       chassis.turnAngle(-90_deg);
     }
     chassis.moveDistance(-8_in);
-    puncher.punchOnce();
-    delay(500);
-    while (!puncher.pullBack()) {delay(20);};
+    puncher.punch();
+    puncher.waitUntilSettled();
     return;
     lcd::print(1, "Climbing Platform");
     chassis.moveDistance(-39_in);
@@ -270,7 +279,7 @@ void autonomous() {
   } else if (autotype == Autotype::CapSide) {
     intake.motor.move_relative(7200, 50);
     chassis.moveDistanceAsync(48_in);
-    while (!puncher.pullBack()) {delay(20);};
+    puncher.waitUntilSettled();
     chassis.waitUntilSettled();
     if (redTeam) {
       chassis.turnAngle(-90_deg);

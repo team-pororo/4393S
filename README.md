@@ -9,16 +9,26 @@ what's not to love? You can thank our designated code monkey @wesleycha for all 
 
 ### Dover-Foxcroft
 Rank: 10
+
 Made it to semifinals, but then our robot fell over during the autonomous period and we couldn't score any points
+
 Awards: Judges Award
 
 ### John-Bapst
 Rank: 4
+
 Awards: Tournament Champion
 
 ### Turner
 Rank: 4
+
 Awards: Tournament Finalist, Judges Award
 
 ### Monmouth Academy
-Not played yet.
+Rank: 3
+
+Team 4393X ripped out our linear puncher limit switch wire, causing the
+linear puncher to tear itself apart. The moving part of the puncher
+was completely rebuilt in an hour
+
+Awards: Tournament Champion, Excellence Award

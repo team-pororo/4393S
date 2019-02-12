@@ -28,8 +28,9 @@
 #define C_ARM_HIGH_POLE DIGITAL_A
 
 // PUNCHER CONTROLS
-#define C_PUNCHER_FIRE DIGITAL_R1
+#define C_PUNCHER_PUNCH DIGITAL_R1
 // Puncher reverse was removed - we don't have enough buttons!
+// No wait, it was added back
 #define C_PUNCHER_REVERSE DIGITAL_B
 
 // INTAKE CONTROLS
